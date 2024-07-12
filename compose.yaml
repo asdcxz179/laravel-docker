@@ -1,0 +1,113 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker compose reference guide at
+# https://docs.docker.com/compose/compose-file/
+
+# Here the instructions define your application as a service called "app".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+
+version: '3.1'
+
+services:
+  nginx:
+    container_name: admin-nginx
+    image: nginx:latest
+    ports:
+      - 8081:8081
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/log:/var/log/nginx
+    depends_on:
+      - php
+    restart: always
+  composer:
+    container_name: admin-composer
+    image: composer:latest
+    volumes:
+      - ./:/app
+    command: install # 預設命令，運行 `docker-compose run composer` 時執行 `composer install`
+    depends_on:
+      - php # 假設您有一個名為 php 的服務
+    restart: always
+  php:
+    container_name: admin-php
+    build: './php'
+    ports:
+      - 9000:9000
+    volumes:
+      - ./php/logs:/var/log/php
+      - ./:/var/www/html
+    environment:
+      PHP_INI_SCAN_DIR: /usr/local/etc/php/conf.d:./php/config
+    depends_on:
+      - db
+    restart: always
+  db:
+    container_name: admin-mysql
+    image: mysql:latest
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - 3306:3306
+    restart: always
+    secrets:
+      - mysql-pass
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql-pass
+      MYSQL_DATABASE: admin
+    volumes:
+      - ./db/data:/var/lib/mysql
+  redis:
+    container_name: admin-redis
+    image: redis:latest
+    env_file:
+      - ./redis/.env
+    command: /bin/sh -c "redis-server --requirepass $$REDIS_HOST_PASSWORD"
+    ports:
+      - 6379:6379
+    restart: always
+    volumes:
+      - ./redis/data:/data
+    
+    # If your application exposes a port, uncomment the following lines and change
+    # the port numbers as needed. The first number is the host port and the second
+    # is the port inside the container.
+    # ports:
+    #   - 8080:8080
+
+    # The commented out section below is an example of how to define a PostgreSQL
+    # database that your application can use. `depends_on` tells Docker Compose to
+    # start the database before your application. The `db-data` volume persists the
+    # database data between container restarts. The `db-password` secret is used
+    # to set the database password. You must create `db/password.txt` and add
+    # a password of your choosing to it before running `docker compose up`.
+    #     depends_on:
+    #       db:
+    #         condition: service_healthy
+    #   db:
+    #     image: postgres
+    #     restart: always
+    #     user: postgres
+    #     secrets:
+    #       - db-password
+    #     volumes:
+    #       - db-data:/var/lib/postgresql/data
+    #     environment:
+    #       - POSTGRES_DB=example
+    #       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    #     expose:
+    #       - 5432
+    #     healthcheck:
+    #       test: [ "CMD", "pg_isready" ]
+    #       interval: 10s
+    #       timeout: 5s
+    #       retries: 5
+    # volumes:
+    #   db-data:
+    # secrets:
+    #   db-password:
+    #     file: db/password.txt
+secrets:
+  mysql-pass:
+    file: ./db/password.txt
