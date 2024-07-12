@@ -4,8 +4,8 @@
 
 ## 安裝流程
 
-1. `git clone xxx`
-2. `cd xxx`
+1. `git clone [xxx](https://github.com/asdcxz179/laravel-docker.git)`
+2. `cd laravel-docker`
 3. `cp ./php/config/php.ini.example ./php/config/php.ini`
 4. `vi ./php/config/php.ini 設定 php-error.log 位置`
 5. `cp ./db/password.txt.example ./db/password.txt`
