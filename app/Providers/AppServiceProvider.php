@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Byg\Admin\Http\Responses\Api\Response;
 
 class AppServiceProvider extends ServiceProvider
 {

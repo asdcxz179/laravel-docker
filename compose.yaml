@@ -22,14 +22,14 @@ services:
     depends_on:
       - php
     restart: always
-  composer:
-    container_name: admin-composer
-    image: composer:latest
-    volumes:
-      - ./:/app
-    command: install # 預設命令，運行 `docker-compose run composer` 時執行 `composer install`
-    depends_on:
-      - php # 假設您有一個名為 php 的服務
+  # composer:
+  #   container_name: admin-composer
+  #   image: composer:latest
+  #   volumes:
+  #     - ./:/app
+  #   command: install # 預設命令，運行 `docker-compose run composer` 時執行 `composer install`
+  #   depends_on:
+  #     - php # 假設您有一個名為 php 的服務
     # restart: always
   php:
     container_name: admin-php
@@ -39,6 +39,7 @@ services:
     volumes:
       - ./php/logs:/var/log/php
       - ./:/var/www/html
+    # command: "composer install"
     environment:
       PHP_INI_SCAN_DIR: /usr/local/etc/php/conf.d:./php/config
     depends_on:

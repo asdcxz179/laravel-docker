@@ -6,8 +6,20 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "byg/admin": "dev-main",
+        "darkaonline/l5-swagger": "*",
+        "doctrine/dbal": "*",
+        "guzzlehttp/guzzle": "*",
         "laravel/framework": "^11.9",
-        "laravel/tinker": "^2.9"
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.9",
+        "mews/captcha": "^3.3",
+        "owen-it/laravel-auditing": "^13.6",
+        "plank/laravel-mediable": "^6.1",
+        "spatie/laravel-permission": "^6.9",
+        "spatie/laravel-translatable": "^6.7",
+        "yadahan/laravel-authentication-log": "^1.7",
+        "yajra/laravel-datatables-oracle": "^11.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -61,5 +73,11 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": {
+        "byg/admin": {
+            "type": "path",
+            "url": "./byg/admin"
+        }
+    }
 }

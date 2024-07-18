@@ -1,0 +1,103 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "BYG 總後台 API",
+        "description": "BYG 總後台 API 集成",
+        "contact": {
+            "email": "asdcxz179@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8081/api/v1",
+            "description": "測試區"
+        }
+    ],
+    "paths": {
+        "/": {}
+    },
+    "components": {
+        "responses": {
+            "200": {
+                "description": "成功",
+                "content": {
+                    "application/json": {
+                        "schema": {},
+                        "example": {
+                            "status": 200,
+                            "message": "OK"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "客戶端錯誤",
+                "content": {
+                    "application/json": {
+                        "schema": {},
+                        "example": {
+                            "status": 400,
+                            "message": "客戶端錯誤"
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "身份驗證失敗",
+                "content": {
+                    "application/json": {
+                        "schema": {},
+                        "example": {
+                            "status": 401,
+                            "message": "Unauthorized"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "找不到請求的資源",
+                "content": {
+                    "application/json": {
+                        "schema": {},
+                        "example": {
+                            "status": 404,
+                            "message": "Not Found"
+                        }
+                    }
+                }
+            },
+            "405": {
+                "description": "不支援此方法",
+                "content": {
+                    "application/json": {
+                        "schema": {},
+                        "example": {
+                            "status": 405,
+                            "message": "Method Not Allowed"
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "伺服器發生錯誤",
+                "content": {
+                    "application/json": {
+                        "schema": {},
+                        "example": {
+                            "status": 500,
+                            "message": "伺服器發生錯誤"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "Authorization": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}
