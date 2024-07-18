@@ -54,10 +54,10 @@ class AdminServiceProvider extends ServiceProvider
         // $router->aliasMiddleware('admin.admin', \Byg\Admin\Http\Middleware\Admin::class);
         $router->aliasMiddleware('admin.guest', \Byg\Admin\Http\Middleware\RedirectIfAuthenticated::class);
             
-        $router->pushMiddlewareToGroup('admin',  \App\Http\Middleware\EncryptCookies::class);
-        $router->pushMiddlewareToGroup('admin',  \Illuminate\Session\Middleware\StartSession::class);
+        // $router->pushMiddlewareToGroup('admin',  \App\Http\Middleware\EncryptCookies::class);
+        // $router->pushMiddlewareToGroup('admin',  \Illuminate\Session\Middleware\StartSession::class);
         $router->pushMiddlewareToGroup('admin',  \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class);
-        $router->pushMiddlewareToGroup('admin', \Illuminate\View\Middleware\ShareErrorsFromSession::class);
+        // $router->pushMiddlewareToGroup('admin', \Illuminate\View\Middleware\ShareErrorsFromSession::class);
         $router->pushMiddlewareToGroup('admin', \Illuminate\Routing\Middleware\SubstituteBindings::class);
         $router->pushMiddlewareToGroup('admin', \Byg\Admin\Http\Middleware\Init::class);
 

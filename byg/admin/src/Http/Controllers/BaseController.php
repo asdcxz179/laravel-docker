@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Byg\Admin\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
  *      path="/"
  *  )
  * @OA\server(
- *      url = "http://localhost:8081/api/v1",
+ *      url = "http://localhost:8081/api",
  *      description="測試區"
  * )
  * @OA\SecurityScheme(

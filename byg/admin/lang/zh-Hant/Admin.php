@@ -13,7 +13,7 @@ return [
     /* A */
     'account'   =>  '帳號',
     'admin' =>  [
-        'email'         =>  '帳號',
+        'account'       =>  '帳號',
         'password'      =>  '密碼',
         'name'          =>  '名稱',
         'captcha'       =>  '驗證碼',

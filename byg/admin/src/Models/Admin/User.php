@@ -5,47 +5,27 @@ namespace Byg\Admin\Models\Admin;
 class User extends \Byg\Admin\Models\Universal\UserModel
 {
     use \Illuminate\Database\Eloquent\SoftDeletes,
-        Yadahan\AuthenticationLog\AuthenticationLogable,
+        \Yadahan\AuthenticationLog\AuthenticationLogable,
         \Spatie\Permission\Traits\HasPermissions;
-
+    
+    /**
+     * 資料表名稱
+     *
+     * @var string
+     */
     protected $table = "admin_users";
+        
+    /**
+     * fillable
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
         'account',
         'password',
         'status',
     ];
-    protected $appends = [
-        'login_count',
-        'last_login_time'
-    ];
-    protected $hidden = [
-        'info','lastLogin',
-    ];
-
-    public function info() {
-        return $this->hasMany(UsersInfo::class,'user_id','id')->where("key","!=","token");
-    }
-
-    public function getLoginCountAttribute() {
-        return $this->info->pluck('value','key')['login_count']??0;
-    }
-
-    public function getTypeAttribute() {
-        return $this->info->pluck('value','key')['type']??"";
-    }
-
-    public function getLastLoginTimeAttribute() {
-        return ($this->lastLogin)?$this->lastLogin->login_at->toDateTimeString():'';
-    }
-
-    public function lastLogin() {
-        return $this->hasOne('Yadahan\AuthenticationLog\AuthenticationLog','authenticatable_id')->orderBy('login_at', 'desc')->select('authenticatable_id','login_at');
-    }
-
-    public function isSuperAdmin(){
-        return $this->hasOne(UsersInfo::class,'user_id','id')->where("key","=","type")->first()->value==1;
-    }
 
     /** 
      * @access protected
@@ -53,7 +33,87 @@ class User extends \Byg\Admin\Models\Universal\UserModel
      * @version 1.0
      * @author Henry
     **/
-    protected $detail = ["name","email","id","status","created_at"];
+    protected $detail = [
+        "id",
+        "name",
+        "account",
+        "status",
+        "created_at"
+    ];
+    
+    /**
+     * appends
+     *
+     * @var array
+     */
+    protected $appends = [
+        'login_count',
+        'last_login_time'
+    ];
+
+    /**
+     * hidden
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'info',
+        'lastLogin',
+    ];
+    
+    /**
+     * 關聯管理員資訊
+     *
+     * @return void
+     */
+    public function info() {
+        return $this->hasMany(UserInfo::class,'admin_user_id','id')->where("key","!=","token");
+    }
+    
+    /**
+     * 取得登入次數
+     *
+     * @return void
+     */
+    public function getLoginCountAttribute() {
+        return $this->info->pluck('value','key')['login_count']??0;
+    }
+    
+    /**
+     * 取得帳號類型
+     *
+     * @return void
+     */
+    public function getTypeAttribute() {
+        return $this->info->pluck('value','key')['type']??"";
+    }
+    
+    /**
+     * 取得最後登入時間
+     *
+     * @return void
+     */
+    public function getLastLoginTimeAttribute() {
+        return ($this->lastLogin)?$this->lastLogin->login_at->toDateTimeString():'';
+    }
+    
+    /**
+     * 關聯取得最後時間
+     *
+     * @return void
+     */
+    public function lastLogin() {
+        return $this->hasOne('Yadahan\AuthenticationLog\AuthenticationLog','authenticatable_id')->orderBy('login_at', 'desc')->select('authenticatable_id','login_at');
+    }
+    
+    /**
+     * 是否為超級管理員
+     *
+     * @return void
+     */
+    public function isSuperAdmin(){
+        return $this->hasOne(UserInfo::class,'admin_user_id','id')->where("key","=","type")->first()?->value==1;
+    }
 
     /**
      * 列表SQL

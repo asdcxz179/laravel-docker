@@ -17,10 +17,6 @@ return [
             'driver' => 'session',
             'provider' => 'admin_users',
         ],
-        'api' => [
-            'driver' => 'token',
-            'provider' => 'admin_users',
-        ],
     ],
 
     'users' =>  [
@@ -43,6 +39,7 @@ return [
                     'placeholder'   =>  'admin::Admin.admin.account',
                     'api_rules'         =>  [
                         'common'    =>  [
+                            
                             'max:255',
                         ],
                         'store'     =>  [
@@ -50,7 +47,7 @@ return [
                             'unique:admin_users,account',
                         ],
                         'update'    =>  [
-                            'nullable',
+                            'nullable'
                             // 'unique:admin_users,account,'.request()->route('id'),
                         ],
                     ],
@@ -104,11 +101,11 @@ return [
                     'options'   =>  [
                         [
                             'value' =>  1,
-                            'text'  =>  'admin::Admin.status.enable',
+                            'text'  =>  'admin::Admin.admin.status.enable',
                         ],
                         [
                             'value' =>  0,
-                            'text'  =>  'admin::Admin.status.disable',
+                            'text'  =>  'admin::Admin.admin.status.disable',
                         ],
                     ],
                 ],

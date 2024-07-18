@@ -76,18 +76,20 @@ class UserService
      * @author Henry
      */
     public function store(array $data) {
-        $createData = Arr::only($data,["name",'email','password']);
-        $createData['password'] = $this->MakePassword($createData['password']);
-        $createData['status'] = 1;
-        $user     =   $this->UsersRepository->create($createData);
-        if(!$user){
-            throw new ErrorException(['data' => ['error' => __('admin::Admin.error.insertFail')]],__('admin::Admin.error.insertFail'),500);
-        }
-        $result = $this->updateInfo($user, $data);
-        if(!$result){
-            throw new ErrorException(['data' => ['error' => __('admin::Admin.error.insertFail')]],__('admin::Admin.error.insertFail'),500);
-        }
-        return $user;
+        return \DB::transaction(function() use ($data) {
+            $createData = Arr::only($data, array_merge(['password'], $this->UsersRepository->getDetailFields()));
+            $createData['password'] = $this->MakePassword($createData['password']);
+            $createData['status'] = 1;
+            $user     =   $this->UsersRepository->create($createData);
+            if(!$user){
+                throw new ErrorException(['data' => ['error' => __('admin::Admin.error.insertFail')]],__('admin::Admin.error.insertFail'),500);
+            }
+            $result = $this->updateInfo($user, $data);
+            if(!$result){
+                throw new ErrorException(['data' => ['error' => __('admin::Admin.error.insertFail')]],__('admin::Admin.error.insertFail'),500);
+            }
+            return $user;
+        });
     }
 
     /**
@@ -100,20 +102,24 @@ class UserService
      * @author Henry
      */
     public function update(array $data, string $uuid) {
-        $updateData = array_filter(Arr::only($data,["name",'password','status']),'strlen');
-        if(isset($data['password']) && $data['password']){
-            $updateData['password'] =   $this->MakePassword($data['password']);
-        }
-        $model =  $this->UsersRepository->find($uuid);
-        $user = $model->update($updateData);
-        if(!$user){
-            throw new ErrorException(['data' => ['error' => __('admin::Admin.error.updateFail')]],__('admin::Admin.error.updateFail'),500);
-        }
-        $result = $this->updateInfo($model, $data);
-        if(!$result){
-            throw new ErrorException(['data' => ['error' => __('admin::Admin.error.updateFail')]],__('admin::Admin.error.updateFail'),500);
-        }
-        return $user;
+        return \DB::transaction(function() use ($data, $uuid) {
+            $fields = array_merge(['password'], $this->UsersRepository->getDetailFields());
+            unset($fields['account']);
+            $updateData = array_filter(Arr::only($data, $fields),'strlen');
+            if(isset($data['password']) && $data['password']){
+                $updateData['password'] =   $this->MakePassword($data['password']);
+            }
+            $model =  $this->UsersRepository->find($uuid);
+            $user = $model->update($updateData);
+            if(!$user){
+                throw new ErrorException(['data' => ['error' => __('admin::Admin.error.updateFail')]],__('admin::Admin.error.updateFail'),500);
+            }
+            $result = $this->updateInfo($model, $data);
+            if(!$result){
+                throw new ErrorException(['data' => ['error' => __('admin::Admin.error.updateFail')]],__('admin::Admin.error.updateFail'),500);
+            }
+            return $user;
+        });
     }
 
     /**

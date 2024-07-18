@@ -10,12 +10,288 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8081/api/v1",
+            "url": "http://localhost:8081/api",
             "description": "測試區"
         }
     ],
     "paths": {
-        "/": {}
+        "/": {},
+        "/admin/users": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "管理員列表",
+                "description": "管理員列表",
+                "operationId": "4058e832b0d3a37c7c4d438aba28696e",
+                "parameters": [
+                    {
+                        "name": "draw",
+                        "in": "query",
+                        "description": "搜尋次數",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "開始筆數",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "0"
+                        }
+                    },
+                    {
+                        "name": "length",
+                        "in": "query",
+                        "description": "每頁筆數",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "10"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "success",
+                                    "data": {
+                                        "exception": null,
+                                        "headers": [],
+                                        "original": {
+                                            "draw": 1,
+                                            "recordsTotal": 1,
+                                            "recordsFiltered": 1,
+                                            "data": [
+                                                {
+                                                    "id": 1,
+                                                    "name": "admin",
+                                                    "account": "admin",
+                                                    "status": 1,
+                                                    "created_at": "2021-07-01 00:00:00",
+                                                    "login_count": 1,
+                                                    "last_login_time": "2021-07-01 00:00:00"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "新增管理員",
+                "description": "新增管理員",
+                "operationId": "8e50211ec84110c16a8b2f98c092b63b",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "account",
+                                    "password",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "名稱",
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "account": {
+                                        "description": "帳號",
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "password": {
+                                        "description": "密碼",
+                                        "type": "string",
+                                        "example": "123qwe"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "確認密碼",
+                                        "type": "string",
+                                        "example": "123qwe"
+                                    },
+                                    "status": {
+                                        "description": "狀態",
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "新增成功"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/users/{id}": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "修改管理員",
+                "description": "修改管理員",
+                "operationId": "952aa9a9237cb312c9e569bdff3afed1",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "管理員ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "account",
+                                    "password",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "名稱",
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "password": {
+                                        "description": "密碼",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "password_confirmation": {
+                                        "description": "確認密碼",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "status": {
+                                        "description": "狀態",
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "修改成功"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "刪除管理員",
+                "description": "刪除管理員",
+                "operationId": "5cdf1a1896e99e8ec48144bf7404729d",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "管理員ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "刪除成功"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     },
     "components": {
         "responses": {
@@ -99,5 +375,11 @@
                 "in": "header"
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Admin",
+            "description": "Admin"
+        }
+    ]
 }
