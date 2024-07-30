@@ -61,6 +61,8 @@ class User extends \Byg\Admin\Models\Universal\UserModel
         'info',
         'lastLogin',
     ];
+
+    protected $super = 'admin';
     
     /**
      * 關聯管理員資訊
@@ -110,10 +112,10 @@ class User extends \Byg\Admin\Models\Universal\UserModel
     /**
      * 是否為超級管理員
      *
-     * @return void
+     * @return boolean
      */
     public function isSuperAdmin(){
-        return $this->hasOne(UserInfo::class,'admin_user_id','id')->where("key","=","type")->first()?->value==1;
+        return $this->hasOne(UserInfo::class,'admin_user_id','id')->where("key", "type")->first()?->value == $this->super;
     }
 
     /**
@@ -125,7 +127,7 @@ class User extends \Byg\Admin\Models\Universal\UserModel
      */
     public function listQuery(array $where) {
         $query = parent::listQuery($where)->whereDoesntHave('info', function($query) {
-            $query->where('key','type')->where('value','admin');
+            $query->where('key','type')->where('value', $this->super);
         });
         return $query;
     }

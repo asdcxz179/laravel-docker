@@ -49,7 +49,6 @@ class AdminServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php','admin');
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'admin');
         $this->loadMigrationsFrom(__DIR__ .'/../database/migrations');
-        $this->loadMigrationsFrom(__DIR__ .'/../database/seeds');
 
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('admin.auth', \Byg\Admin\Http\Middleware\Authenticate::class);

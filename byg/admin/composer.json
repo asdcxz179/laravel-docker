@@ -15,11 +15,14 @@
         "laravel": {
             "providers": [
                 "Byg\\Admin\\AdminServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Universal":  "Byg\\Admin\\Helpers\\Universal\\Universal"
+            }
         }
     },
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "darkaonline/l5-swagger": "*",
         "doctrine/dbal": "*",
         "laravel/framework": "^11.9",
