@@ -72,6 +72,7 @@ return [
     'loginTimes'    =>  '登入次數',
     'logout'=>  '登出',
     'loginSuccess'  =>  '登入成功',
+    'logoutSuccess' =>  '登出成功',
     /* M */
     'imageLibrary'  =>  '圖片庫',
     /* O */

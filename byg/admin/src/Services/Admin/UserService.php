@@ -195,8 +195,13 @@ class UserService
      * @return void
      */
     public function logout(string $ip,string $userAgent) {
-        $user_id    =   auth()->user()->id;
-        auth()->logout();
+        if(env("AUTH_MODE") == "token") {
+            auth()->user()->tokens()->where('name', $userAgent)->delete();
+        }else{
+            $user_id    =   auth()->user()->id;
+            auth()->logout();
+        }
+        
         // if(!$result){
         //     throw new ErrorException(['data'=>['error'=>__('admin::Admin.error.serverError')]],__('admin::Admin.error.serverError'),500);
         // }
