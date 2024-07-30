@@ -6,7 +6,8 @@ class User extends \Byg\Admin\Models\Universal\UserModel
 {
     use \Illuminate\Database\Eloquent\SoftDeletes,
         \Yadahan\AuthenticationLog\AuthenticationLogable,
-        \Spatie\Permission\Traits\HasPermissions;
+        \Spatie\Permission\Traits\HasPermissions,
+        \Laravel\Sanctum\HasApiTokens;
     
     /**
      * 資料表名稱

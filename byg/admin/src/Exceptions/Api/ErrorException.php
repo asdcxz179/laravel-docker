@@ -3,6 +3,7 @@
 namespace Byg\Admin\Exceptions\Api;
 
 use Byg\Admin\Http\Responses\Api\Response;
+use Illuminate\Http\Request;
 
 class ErrorException extends BaseException
 {

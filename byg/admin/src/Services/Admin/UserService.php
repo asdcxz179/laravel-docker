@@ -3,11 +3,11 @@
 namespace Byg\Admin\Services\Admin;
 
 use Illuminate\Support\Arr;
-use Byg\Admin\Exceptions\Universal\ErrorException;
+use Byg\Admin\Exceptions\Api\ErrorException;
 use Illuminate\Support\Facades\Hash;
 use Auth;
 use DataTables;
-use Byg\Admin\Events\Auth\Login;
+use Illuminate\Auth\Events\Login;
 
 /**
  * Class UserService.
@@ -158,20 +158,33 @@ class UserService
      */
     public function login(array $request,string $ip,string $userAgent) {
         $credentials = Arr::only($request,["account","password"]);
-        if (! $token = auth()->attempt(array_merge($credentials,['status' => 1]))) {
-            throw new ErrorException(['data'=>['error'=>__('admin::Admin.error.accountOrPasswordError')]],__('admin::Admin.error.accountOrPasswordError'),401);
+        if(env("AUTH_MODE") == "token") {
+            $user = $this->UsersRepository->where([
+                'account' => $credentials['account'],
+                'status' => 1
+            ])->first();
+            if($user && !Hash::check($credentials['password'],$user->password)) {
+                throw new ErrorException(['data'=>['error'=>__('admin::Admin.error.accountOrPasswordError')]],__('admin::Admin.error.accountOrPasswordError'),401);
+            }
+            // event(new Login(config('auth.defaults.guard'), $user, false));
+        }else{
+            if (! $token = auth()->attempt(array_merge($credentials,['status' => 1]))) {
+                throw new ErrorException(['data'=>['error'=>__('admin::Admin.error.accountOrPasswordError')]],__('admin::Admin.error.accountOrPasswordError'),401);
+            }
+            $user = auth()->user();
+        }
+        
+        $return = $user->only(['id', 'account', 'name']);
+
+        if(env("AUTH_MODE") == "token") {
+            $token = $user->createToken($userAgent)->plainTextToken;
+            $return['token'] = $token;
         }
         if(env("ADMIN_MUTIPLE_LOGIN",false)) {
             Auth::logoutOtherDevices($credentials['password']);
         }
         
-        return [
-            'user' => [
-                'id' => Auth::user()->id,
-                'account' => Auth::user()->account,
-                'name' =>  Auth::user()->name
-            ]
-        ];
+        return $return;
     }
     
     /**

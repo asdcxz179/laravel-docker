@@ -10,36 +10,15 @@ use Byg\Admin\Http\Responses\Api\Response;
  *      tags={"Admin"},
  *      summary="管理員列表",
  *      description="管理員列表",
- *      @OA\Parameter(
- *          name="draw",
- *          in="query",
- *          description="搜尋次數",
+ *      @OA\RequestBody(
  *          required=true,
- *          @OA\Schema(
- *              type="integer",
- *              example="1"
+ *          @OA\JsonContent(
+ *              required={"draw","start","length"},
+ *              @OA\Property(property="draw", type="integer", example="1", description="搜尋次數"),
+ *              @OA\Property(property="start", type="integer", example="0", description="開始筆數"),
+ *              @OA\Property(property="length", type="integer", example="10", description="每頁筆數"),
  *          )
- *      ),
- *      @OA\Parameter(
- *          name="start",
- *          in="query",
- *          description="開始筆數",
- *          required=true,
- *          @OA\Schema(
- *              type="integer",
- *              example="0"
- *          )
- *      ),
- *      @OA\Parameter(
- *          name="length",
- *          in="query",
- *          description="每頁筆數",
- *          required=true,
- *          @OA\Schema(
- *              type="integer",
- *              example="10"
- *          )
- *      ),
+ *     ),
  *      @OA\Response(
  *          response="200",
  *          description="成功",

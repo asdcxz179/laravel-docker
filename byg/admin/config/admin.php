@@ -18,7 +18,7 @@ return [
             'provider' => 'admin_users',
         ],
         'api' => [
-            'driver' => 'token',
+            'driver' => 'sanctum',
             'provider' => 'admin_users',
         ],
     ],

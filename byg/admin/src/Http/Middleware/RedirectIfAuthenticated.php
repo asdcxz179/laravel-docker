@@ -4,7 +4,7 @@ namespace Byg\Admin\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Byg\Admin\Http\Responses\Api\Response;
 
 class RedirectIfAuthenticated
 {
@@ -18,7 +18,7 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        if (Auth::guard()->check()) {
+        if (\Auth::check()) {
             $request = app(Request::class);
             if(!$request->ajax()) {
                 return redirect()->route('Backend.dashboard.index');

@@ -16,6 +16,9 @@
 11. `vi .env` 修改為本地 DB 連線
 12. `docker-compose up -d`
 13. `docker exec admin-php php artisan key:generate`
-14. `docker exec admin-php php artisan migrate`
-15. `docker exec admin-php php artisan db:seed`
-16. `打開網址 [http://localhost:8081](http://localhost:8081)`
+14. `docker exec admin-php php artisan storage:link`
+15. `docker exec admin-php php artisan migrate`
+16. `docker exec admin-php php artisan db:seed`
+17. `docker exec admin-php php artisan instal:api`
+18. `chmod -R 775 storage;chown -R www-data:www-data storage;`
+19. `打開網址 [http://localhost:8081](http://localhost:8081)`

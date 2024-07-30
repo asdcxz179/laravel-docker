@@ -13,8 +13,12 @@ return [
     'locale'    =>  'zh-Hant',
 
     'guards' => [
-        'admin' => [
-            'driver' => 'session',
+        // 'admin' => [
+        //     'driver' => 'session',
+        //     'provider' => 'admin_users',
+        // ],
+        'api' => [
+            'driver' => 'sanctum',
             'provider' => 'admin_users',
         ],
     ],

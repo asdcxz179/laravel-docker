@@ -71,11 +71,13 @@ return [
     'loginTime'     =>  '登入時間',
     'loginTimes'    =>  '登入次數',
     'logout'=>  '登出',
+    'loginSuccess'  =>  '登入成功',
     /* M */
     'imageLibrary'  =>  '圖片庫',
     /* O */
     'operate'   =>  '操作',
     /* P */
+    'pleaseLogin'   =>  '請登入帳號',
     /* S */
     'sent'      =>  '送出',
     'settings'  =>  [

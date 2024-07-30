@@ -56,10 +56,11 @@ class AdminServiceProvider extends ServiceProvider
             
         // $router->pushMiddlewareToGroup('admin',  \App\Http\Middleware\EncryptCookies::class);
         // $router->pushMiddlewareToGroup('admin',  \Illuminate\Session\Middleware\StartSession::class);
-        $router->pushMiddlewareToGroup('admin',  \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class);
+        $router->pushMiddlewareToGroup('admin',  \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class);
+        // $router->pushMiddlewareToGroup('admin',  \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class);
         // $router->pushMiddlewareToGroup('admin', \Illuminate\View\Middleware\ShareErrorsFromSession::class);
         $router->pushMiddlewareToGroup('admin', \Illuminate\Routing\Middleware\SubstituteBindings::class);
-        $router->pushMiddlewareToGroup('admin', \Byg\Admin\Http\Middleware\Init::class);
+        // $router->pushMiddlewareToGroup('admin', \Byg\Admin\Http\Middleware\Init::class);
 
         $this->publishes([
             __DIR__.'/../lang' => resource_path('lang/vendor/admin'),

@@ -15,19 +15,24 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['admin'])->prefix('api')->name('api.')->namespace('Byg\Admin\Http\Controllers')->group(function(){
     // /* 初始化設定 */
     // Route::resource('Init', 'System\InitController');
-	// /*管理員登入*/
-    // Route::resource('Login', 'Auth\LoginController');
+	
 
     $middleware = [
         // 'admin.auth',
         // 'admin.admin',
     ];
 
-    Route::middleware($middleware)->group(function () {
-        Route::prefix('admin')->name('admin.')->group(function(){
+    Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function() use ($middleware){
+        /*管理員登入*/
+        Route::resource('login', 'Auth\LoginController')->only(['store']);
+
+        Route::middleware('auth:sanctum')->group(function () {
             /* 管理員列表 */
-            Route::resource('users', 'Admin\UserController');
+            Route::resource('users', 'UserController');
         });
+    });
+
+    Route::middleware($middleware)->group(function () {
         // Route::prefix('media')->name('media.')->group(function(){
         //     /* 圖片庫 */
         //     Route::resource('image', 'Media\ImagesController');
@@ -36,7 +41,6 @@ Route::middleware(['admin'])->prefix('api')->name('api.')->namespace('Byg\Admin\
         //     /* 上傳圖片 */
         //     // Route::post('media/upload', 'Media\UploadController@store')->name('media.upload');
         // });
-        
 
         // /* 儀錶板 */
         // Route::resource('dashboard', 'System\DashboardController');

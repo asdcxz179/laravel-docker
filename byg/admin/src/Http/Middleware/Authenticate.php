@@ -15,6 +15,7 @@ class Authenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
+        dd(auth()->user());
         return $next($request);
     }
 }
