@@ -163,10 +163,10 @@ class UserService
                 'account' => $credentials['account'],
                 'status' => 1
             ])->first();
-            if($user && !Hash::check($credentials['password'],$user->password)) {
+            if(!$user || !Hash::check($credentials['password'],$user->password)) {
                 throw new ErrorException(['data'=>['error'=>__('admin::Admin.error.accountOrPasswordError')]],__('admin::Admin.error.accountOrPasswordError'),401);
             }
-            // event(new Login(config('auth.defaults.guard'), $user, false));
+            event(new Login(config('auth.defaults.guard'), $user, false));
         }else{
             if (! $token = auth()->attempt(array_merge($credentials,['status' => 1]))) {
                 throw new ErrorException(['data'=>['error'=>__('admin::Admin.error.accountOrPasswordError')]],__('admin::Admin.error.accountOrPasswordError'),401);

@@ -14,6 +14,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         //
     })
-    ->withExceptions(function (Exceptions $exceptions) {
-        //
+    ->withExceptions(function(Exceptions $exceptions){
+        $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e) {
+            if (request()->is('api/*')) {
+                return \Byg\Admin\Http\Responses\Api\Response::json([
+                    'message' => __('admin::Admin.pleaseLogin')
+                ], 401);
+            }
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        });
     })->create();

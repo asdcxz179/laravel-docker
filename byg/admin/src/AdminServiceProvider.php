@@ -28,6 +28,7 @@ class AdminServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
+        //設定檔
         $this->mergeConfigFrom(__DIR__.'/../config/admin.php', 'admin');
         $this->mergeConfigFrom(__DIR__.'/../config/l5-swagger.php', 'l5-swagger');
         $this->mergeConfigFrom(__DIR__.'/../config/audit.php', 'audit');
@@ -37,9 +38,11 @@ class AdminServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/datatables.php', 'datatables');
         $this->mergeConfigFrom(__DIR__.'/../config/mediable.php', 'mediable');
         $this->mergeConfigFrom(__DIR__.'/../config/permission.php', 'permission');
+
         config(['auth.guards'=>array_merge(config('auth.guards'),config('admin.guards'))]);
         config(['auth.providers'=>array_merge(config('auth.providers'),config('admin.providers'))]);
         config(['auth.passwords'=>array_merge(config('auth.passwords'),config('admin.passwords'))]);
+        
         App::setLocale(config('admin.locale'));
         App::setFallbackLocale(config('admin.locale'));
 
@@ -53,14 +56,15 @@ class AdminServiceProvider extends ServiceProvider
         $router->aliasMiddleware('admin.init', \Byg\Admin\Http\Middleware\Init::class);
         // $router->aliasMiddleware('admin.admin', \Byg\Admin\Http\Middleware\Admin::class);
         $router->aliasMiddleware('admin.guest', \Byg\Admin\Http\Middleware\RedirectIfAuthenticated::class);
-            
+        
+        //中介層
         // $router->pushMiddlewareToGroup('admin',  \App\Http\Middleware\EncryptCookies::class);
         // $router->pushMiddlewareToGroup('admin',  \Illuminate\Session\Middleware\StartSession::class);
         $router->pushMiddlewareToGroup('admin',  \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class);
         // $router->pushMiddlewareToGroup('admin',  \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class);
         // $router->pushMiddlewareToGroup('admin', \Illuminate\View\Middleware\ShareErrorsFromSession::class);
         $router->pushMiddlewareToGroup('admin', \Illuminate\Routing\Middleware\SubstituteBindings::class);
-        // $router->pushMiddlewareToGroup('admin', \Byg\Admin\Http\Middleware\Init::class);
+        $router->pushMiddlewareToGroup('admin', \Byg\Admin\Http\Middleware\Init::class);
 
         $this->publishes([
             __DIR__.'/../lang' => resource_path('lang/vendor/admin'),

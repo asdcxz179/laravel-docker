@@ -8,14 +8,76 @@
         },
         "version": "1.0.0"
     },
-    "servers": [
-        {
-            "url": "http://localhost:8081/api",
-            "description": "測試區"
-        }
-    ],
     "paths": {
         "/": {},
+        "/admin/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "管理員登入",
+                "description": "管理員登入",
+                "operationId": "8199380c719d0a33f987f7b81154eaf1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "account",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "account": {
+                                        "description": "帳號",
+                                        "type": "string",
+                                        "example": "admin"
+                                    },
+                                    "password": {
+                                        "description": "密碼",
+                                        "type": "string",
+                                        "example": "admin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "success",
+                                    "data": {
+                                        "exception": null,
+                                        "headers": [],
+                                        "original": {
+                                            "token": "eyJ\n *  0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjIwMjEtMDctMjBUMDk6MzA6MjQuMjYwMjIwMjIiLCJpYXQiOjE2MjQ2MjIwMjIsImV4cCI6MTYyNDYyNTYyMiwiYXVkIjoiIiwic3ViIjoiIiwic2NvcGVzIjpbXX0",
+                                            "token_type": "Bearer",
+                                            "expires_in": 3600,
+                                            "user": {
+                                                "id": 1,
+                                                "name": "admin",
+                                                "account": "admin",
+                                                "status": 1,
+                                                "created_at": "2021-07-01 00:00:00",
+                                                "login_count": 1,
+                                                "last_login_time": "2021-07-01 00:00:00"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/admin/users": {
             "get": {
                 "tags": [
@@ -377,6 +439,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
         {
             "name": "Admin",
             "description": "Admin"
