@@ -24,7 +24,8 @@ return [
         'status_options'=>  [
             0   =>  '停用',
             1   =>  '正常'
-        ]
+        ],
+        'passwordChangeSuccess' => '密碼變更成功',
     ],
     'adminManger'   =>  '管理員管理',
     'adminDetail'   =>  '管理員詳情',

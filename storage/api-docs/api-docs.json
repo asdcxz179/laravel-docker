@@ -124,6 +124,79 @@
                 ]
             }
         },
+        "/admin/password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "管理員變更密碼",
+                "description": "管理員變更密碼",
+                "operationId": "a86d7c0fc2c24bb28282933858d81ef1",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "old_password",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "old_password": {
+                                        "description": "舊密碼",
+                                        "type": "string",
+                                        "example": "123qwe"
+                                    },
+                                    "password": {
+                                        "description": "新密碼",
+                                        "type": "string",
+                                        "example": "123qwe"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "確認密碼",
+                                        "type": "string",
+                                        "example": "123qwe"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "success",
+                                    "data": []
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/users?draw={draw}&start={start}&length={length}": {
             "get": {
                 "tags": [

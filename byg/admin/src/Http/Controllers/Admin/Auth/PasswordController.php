@@ -5,14 +5,13 @@ namespace Byg\Admin\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use Byg\Admin\Http\Responses\Api\Response;
 use Byg\Admin\Services\Admin\UserService;
-use Illuminate\Http\Request;
-
+use Byg\Admin\Http\Requests\Admin\Auth\PasswordRequest;
 /**
- *  @OA\Get (
- *      path="/admin/logout",
+ *  @OA\Post (
+ *      path="/admin/password",
  *      tags={"Auth"},
- *      summary="管理員登出",
- *      description="管理員登出",
+ *      summary="管理員變更密碼",
+ *      description="管理員變更密碼",
  *      security={{"sanctum":{}}},
  *      @OA\Parameter(
  *          name="X-Requested-With",
@@ -21,6 +20,15 @@ use Illuminate\Http\Request;
  *          @OA\Schema(
  *              type="string",
  *              default="XMLHttpRequest"
+ *          )
+ *      ),
+ *      @OA\RequestBody(
+ *          required=true,
+ *          @OA\JsonContent(
+ *              required={"old_password","password", "password_confirmation"},
+ *              @OA\Property(property="old_password", type="string", example="123qwe", description="舊密碼"),
+ *              @OA\Property(property="password", type="string", example="123qwe", description="新密碼"),
+ *              @OA\Property(property="password_confirmation", type="string", example="123qwe", description="確認密碼"),
  *          )
  *      ),
  *      @OA\Response(
@@ -36,38 +44,41 @@ use Illuminate\Http\Request;
  *          )
  *      )
  *  )
+ * 
  */
-class LogoutController extends Controller
+class PasswordController extends Controller
 {
-    /**
+    /** 
      * \App\Services\Admin\UserService
      * @access protected
      * @var UserService
      * @version 1.0
      * @author Henry
-     */
+    **/
     protected $UserService;
-
+    
     /** 
      * 建構子
      * @version 1.0
      * @author Henry
     **/
-    public function __construct(UserService $UserService){
+    public function __construct(UserService $UserService) {
         $this->UserService = $UserService;
     }
 
     /**
-     * Display a listing of the resource.
+     * Store a newly created resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Byg\Admin\Http\Responses\Api\Response
      */
-    public function index(Request $request)
+    public function store(PasswordRequest $request)
     {
-        $this->UserService->logout($request->ip(),$request->userAgent());
+        $this->UserService->updatePassword($request->all(), auth()->user()->id);
         if($request->ajax()) {
-            return Response::json(["message"=>__('admin::Admin.logoutSuccess')]);
+            return Response::json(['message' => __('admin::Admin.admin.passwordChangeSuccess')]);
         }
-        return redirect()->route('Backend.Login.index');
+        return back();
     }
+
 }

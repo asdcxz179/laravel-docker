@@ -30,6 +30,8 @@ Route::middleware(['admin'])->prefix('api')->name('api.')->namespace('Byg\Admin\
             Route::resource('users', 'UserController');
             /* 管理員登出 */
             Route::resource('logout', 'Auth\LogoutController');
+            /* 變更密碼 */
+            Route::resource('password', 'Auth\PasswordController');
         });
     });
 
@@ -45,8 +47,7 @@ Route::middleware(['admin'])->prefix('api')->name('api.')->namespace('Byg\Admin\
 
         // /* 儀錶板 */
         // Route::resource('dashboard', 'System\DashboardController');
-        // /* 變更密碼 */
-        // Route::resource('password', 'Auth\PasswordController');
+        
         // /* 變更密碼 */
         
         // /* 管理員管理 */
