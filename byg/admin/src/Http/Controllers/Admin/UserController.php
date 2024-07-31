@@ -6,19 +6,47 @@ use App\Http\Controllers\Controller;
 use Byg\Admin\Http\Responses\Api\Response;
 /**
  *  @OA\Get (
- *      path="/admin/users",
+ *      path="/admin/users?draw={draw}&start={start}&length={length}",
  *      tags={"Admin"},
  *      summary="管理員列表",
  *      description="管理員列表",
- *      @OA\RequestBody(
+ *      security={{"sanctum":{}}},
+ *      @OA\Parameter(
+ *          name="X-Requested-With",
+ *          in="header",
  *          required=true,
- *          @OA\JsonContent(
- *              required={"draw","start","length"},
- *              @OA\Property(property="draw", type="integer", example="1", description="搜尋次數"),
- *              @OA\Property(property="start", type="integer", example="0", description="開始筆數"),
- *              @OA\Property(property="length", type="integer", example="10", description="每頁筆數"),
+ *          @OA\Schema(
+ *              type="string",
+ *              default="XMLHttpRequest"
  *          )
- *     ),
+ *      ),
+ *      @OA\Parameter(
+ *          name="draw",
+ *          in="path",
+ *          required=true,
+ *          @OA\Schema(
+ *              type="integer",
+ *              default=1
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="start",
+ *          in="path",
+ *          required=true,
+ *          @OA\Schema(
+ *              type="integer",
+ *              default=0
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="length",
+ *          in="path",
+ *          required=true,
+ *          @OA\Schema(
+ *              type="integer",
+ *              default=10
+ *          )
+ *      ),
  *      @OA\Response(
  *          response="200",
  *          description="成功",
@@ -51,11 +79,57 @@ use Byg\Admin\Http\Responses\Api\Response;
  *      )
  *  )
  * )
+ *  @OA\Get (
+ *      path="/admin/users/{id}",
+ *      tags={"Admin"},
+ *      summary="管理員詳細資料",
+ *      description="管理員詳細資料",
+ *      security={{"sanctum":{}}},
+ *      @OA\Parameter(
+ *          name="X-Requested-With",
+ *          in="header",
+ *          required=true,
+ *          @OA\Schema(
+ *              type="string",
+ *              default="XMLHttpRequest"
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="id",
+ *          in="path",
+ *          required=true,
+ *          @OA\Schema(
+ *              type="integer",
+ *              default=2
+ *          )
+ *      ),
+ *      @OA\Response(
+ *          response="200",
+ *          description="成功",
+ *          @OA\JsonContent(
+ *              example={
+ *                  "status":200,
+ *                  "message":"success",
+ *                  "data":{
+ *                      "id":1,
+ *                      "name":"admin",
+ *                      "account":"admin",
+ *                      "status":1,
+ *                      "created_at":"2021-07-01 00:00:00",
+ *                      "login_count":1,
+ *                      "last_login_time":"2021-07-01 00:00:00"
+ *                  }
+ *              }
+ *          )
+ *      )
+ *  ),
+ * 
  * @OA\Post (
  *      path="/admin/users",
  *      tags={"Admin"},
  *      summary="新增管理員",
  *      description="新增管理員",
+ *      security={{"sanctum":{}}},
  *      @OA\Parameter(
  *          name="X-Requested-With",
  *          in="header",
@@ -92,6 +166,7 @@ use Byg\Admin\Http\Responses\Api\Response;
  *      tags={"Admin"},
  *      summary="修改管理員",
  *      description="修改管理員",
+ *      security={{"sanctum":{}}},
  *      @OA\Parameter(
  *          name="X-Requested-With",
  *          in="header",
@@ -137,6 +212,7 @@ use Byg\Admin\Http\Responses\Api\Response;
  *      tags={"Admin"},
  *      summary="刪除管理員",
  *      description="刪除管理員",
+ *      security={{"sanctum":{}}},
  *      @OA\Parameter(
  *          name="X-Requested-With",
  *          in="header",

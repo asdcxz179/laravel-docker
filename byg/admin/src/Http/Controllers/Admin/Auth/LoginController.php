@@ -8,51 +8,45 @@ use Byg\Admin\Services\Admin\UserService;
 use Byg\Admin\Http\Responses\Api\Response;
 
 /**
- * @OA\Post (
- *     path="/admin/login",
- *    tags={"Auth"},
- *   summary="管理員登入",
- * description="管理員登入",
- * @OA\RequestBody(
- *    required=true,
- *   @OA\JsonContent(
- *     required={"account","password"},
- *   @OA\Property(property="account", type="string", example="admin", description="帳號"),
- *  @OA\Property(property="password", type="string", example="admin", description="密碼"),
- * )
- * ),
- * @OA\Response(
- *   response="200",
- * description="成功",
- * @OA\JsonContent(
- *  example={
- *   "status":200,
- * "message":"success",
- * "data":{
- * "exception": null,
- * "headers":
- * {},
- * "original":{
- * "token":"eyJ
- *  0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjIwMjEtMDctMjBUMDk6MzA6MjQuMjYwMjIwMjIiLCJpYXQiOjE2MjQ2MjIwMjIsImV4cCI6MTYyNDYyNTYyMiwiYXVkIjoiIiwic3ViIjoiIiwic2NvcGVzIjpbXX0",
- * "token_type":"Bearer",
- * "expires_in":3600,
- * "user":{
- * "id":1,
- * "name":"admin",
- * "account":"admin",
- * "status":1,
- * "created_at":"2021-07-01 00:00:00",
- * "login_count":1,
- * "last_login_time":"2021-07-01 00:00:00"
- * }
- * }
- * }
- * }
- * )
- * )
- * )
- * 
+ *  @OA\Post (
+ *      path="/admin/login",
+ *      tags={"Auth"},
+ *      summary="管理員登入",
+ *      description="管理員登入",
+ *      @OA\Parameter(
+ *          name="X-Requested-With",
+ *          in="header",
+ *          required=true,
+ *          @OA\Schema(
+ *              type="string",
+ *              default="XMLHttpRequest"
+ *          )
+ *      ),
+ *      @OA\RequestBody(
+ *          required=true,
+ *          @OA\JsonContent(
+ *              required={"account","password"},
+ *              @OA\Property(property="account", type="string", example="admin", description="帳號"),
+ *              @OA\Property(property="password", type="string", example="123qwe", description="密碼"),
+ *          )
+ *      ),
+ *      @OA\Response(
+ *          response="200",
+ *          description="成功",
+ *          @OA\JsonContent(
+ *              example={
+ *                  "status":200,
+ *                  "message":"success",
+ *                  "data":{
+ *                      "id":"1",
+ *                      "name":"Admin",
+ *                      "account":"admin",
+ *                      "token":"54|psaNlF3yDz7iO2cOM80Gun0Par8PWYkCeBlyp6oca60285d4",
+ *                  }
+ *              }
+ *          )
+ *      )
+ *  )
  */
 class LoginController extends Controller
 {

@@ -21,5 +21,5 @@
 16. `docker exec admin-php php artisan db:seed`
 17. `docker exec admin-php php artisan instal:api`
 18. `chmod -R 775 storage;chown -R www-data:www-data storage;`
-19. `docker exec admin-php php artisan db:seed --class="Byg\Admin\Database\Seeders\DatabaseSeeder"`
+19. `docker exec admin-php php artisan db:seed --class="Byg\Admin\database\seeders\DatabaseSeeder"`
 19. `打開網址 [http://localhost:8081](http://localhost:8081)`

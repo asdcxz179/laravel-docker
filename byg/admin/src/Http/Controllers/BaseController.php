@@ -21,12 +21,6 @@ use Illuminate\Http\Request;
  *      url = "http://localhost:8081/api",
  *      description="測試區"
  * )
- * @OA\SecurityScheme(
- *      securityScheme="Authorization",
- *      type="apiKey",
- *      in="header",
- *      name="Authorization"
- * )
  * @OA\Components(
  *     @OA\Response(
  *          response="200",

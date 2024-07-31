@@ -8,6 +8,12 @@
         },
         "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "http://localhost:8081/api",
+            "description": "測試區"
+        }
+    ],
     "paths": {
         "/": {},
         "/admin/login": {
@@ -18,6 +24,17 @@
                 "summary": "管理員登入",
                 "description": "管理員登入",
                 "operationId": "8199380c719d0a33f987f7b81154eaf1",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -36,7 +53,7 @@
                                     "password": {
                                         "description": "密碼",
                                         "type": "string",
-                                        "example": "admin"
+                                        "example": "123qwe"
                                     }
                                 },
                                 "type": "object"
@@ -54,22 +71,10 @@
                                     "status": 200,
                                     "message": "success",
                                     "data": {
-                                        "exception": null,
-                                        "headers": [],
-                                        "original": {
-                                            "token": "eyJ\n *  0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjIwMjEtMDctMjBUMDk6MzA6MjQuMjYwMjIwMjIiLCJpYXQiOjE2MjQ2MjIwMjIsImV4cCI6MTYyNDYyNTYyMiwiYXVkIjoiIiwic3ViIjoiIiwic2NvcGVzIjpbXX0",
-                                            "token_type": "Bearer",
-                                            "expires_in": 3600,
-                                            "user": {
-                                                "id": 1,
-                                                "name": "admin",
-                                                "account": "admin",
-                                                "status": 1,
-                                                "created_at": "2021-07-01 00:00:00",
-                                                "login_count": 1,
-                                                "last_login_time": "2021-07-01 00:00:00"
-                                            }
-                                        }
+                                        "id": "1",
+                                        "name": "Admin",
+                                        "account": "admin",
+                                        "token": "54|psaNlF3yDz7iO2cOM80Gun0Par8PWYkCeBlyp6oca60285d4"
                                     }
                                 }
                             }
@@ -78,46 +83,93 @@
                 }
             }
         },
-        "/admin/users": {
+        "/admin/logout": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "管理員登出",
+                "description": "管理員登出",
+                "operationId": "21814b2636498c3409222a7acfa9e80f",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "success",
+                                    "data": []
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/users?draw={draw}&start={start}&length={length}": {
             "get": {
                 "tags": [
                     "Admin"
                 ],
                 "summary": "管理員列表",
                 "description": "管理員列表",
-                "operationId": "4058e832b0d3a37c7c4d438aba28696e",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "draw",
-                                    "start",
-                                    "length"
-                                ],
-                                "properties": {
-                                    "draw": {
-                                        "description": "搜尋次數",
-                                        "type": "integer",
-                                        "example": "1"
-                                    },
-                                    "start": {
-                                        "description": "開始筆數",
-                                        "type": "integer",
-                                        "example": "0"
-                                    },
-                                    "length": {
-                                        "description": "每頁筆數",
-                                        "type": "integer",
-                                        "example": "10"
-                                    }
-                                },
-                                "type": "object"
-                            }
+                "operationId": "3debe0a2c90c8b0fce648f4e6aa1d1e8",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    },
+                    {
+                        "name": "draw",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "length",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "成功",
@@ -151,15 +203,22 @@
                             }
                         }
                     }
-                }
-            },
-            "post": {
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/users/{id}": {
+            "get": {
                 "tags": [
                     "Admin"
                 ],
-                "summary": "新增管理員",
-                "description": "新增管理員",
-                "operationId": "8e50211ec84110c16a8b2f98c092b63b",
+                "summary": "管理員詳細資料",
+                "description": "管理員詳細資料",
+                "operationId": "4e24ca9f2b7d5951a6612fe22aa64ed3",
                 "parameters": [
                     {
                         "name": "X-Requested-With",
@@ -169,51 +228,17 @@
                             "type": "string",
                             "default": "XMLHttpRequest"
                         }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "name",
-                                    "account",
-                                    "password",
-                                    "status"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "description": "名稱",
-                                        "type": "string",
-                                        "example": "test"
-                                    },
-                                    "account": {
-                                        "description": "帳號",
-                                        "type": "string",
-                                        "example": "test"
-                                    },
-                                    "password": {
-                                        "description": "密碼",
-                                        "type": "string",
-                                        "example": "123qwe"
-                                    },
-                                    "password_confirmation": {
-                                        "description": "確認密碼",
-                                        "type": "string",
-                                        "example": "123qwe"
-                                    },
-                                    "status": {
-                                        "description": "狀態",
-                                        "type": "integer",
-                                        "example": "1"
-                                    }
-                                },
-                                "type": "object"
-                            }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 2
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "成功",
@@ -222,15 +247,27 @@
                                 "schema": {},
                                 "example": {
                                     "status": 200,
-                                    "message": "新增成功"
+                                    "message": "success",
+                                    "data": {
+                                        "id": 1,
+                                        "name": "admin",
+                                        "account": "admin",
+                                        "status": 1,
+                                        "created_at": "2021-07-01 00:00:00",
+                                        "login_count": 1,
+                                        "last_login_time": "2021-07-01 00:00:00"
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            }
-        },
-        "/admin/users/{id}": {
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
             "put": {
                 "tags": [
                     "Admin"
@@ -309,7 +346,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -351,7 +393,95 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/users": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "新增管理員",
+                "description": "新增管理員",
+                "operationId": "8e50211ec84110c16a8b2f98c092b63b",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "account",
+                                    "password",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "名稱",
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "account": {
+                                        "description": "帳號",
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "password": {
+                                        "description": "密碼",
+                                        "type": "string",
+                                        "example": "123qwe"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "確認密碼",
+                                        "type": "string",
+                                        "example": "123qwe"
+                                    },
+                                    "status": {
+                                        "description": "狀態",
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "新增成功"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         }
     },
@@ -431,8 +561,9 @@
             }
         },
         "securitySchemes": {
-            "Authorization": {
+            "sanctum": {
                 "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
                 "name": "Authorization",
                 "in": "header"
             }

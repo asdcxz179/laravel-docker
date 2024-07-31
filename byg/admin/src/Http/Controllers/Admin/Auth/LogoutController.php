@@ -7,6 +7,36 @@ use Byg\Admin\Http\Responses\Api\Response;
 use Byg\Admin\Services\Admin\UserService;
 use Illuminate\Http\Request;
 
+/**
+ *  @OA\Get (
+ *      path="/admin/logout",
+ *      tags={"Auth"},
+ *      summary="管理員登出",
+ *      description="管理員登出",
+ *      security={{"sanctum":{}}},
+ *      @OA\Parameter(
+ *          name="X-Requested-With",
+ *          in="header",
+ *          required=true,
+ *          @OA\Schema(
+ *              type="string",
+ *              default="XMLHttpRequest"
+ *          )
+ *      ),
+ *      @OA\Response(
+ *          response="200",
+ *          description="成功",
+ *          @OA\JsonContent(
+ *              example={
+ *                  "status":200,
+ *                  "message":"success",
+ *                  "data":{
+ *                  }
+ *              }
+ *          )
+ *      )
+ *  )
+ */
 class LogoutController extends Controller
 {
     /**
