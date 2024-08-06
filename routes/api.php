@@ -1,8 +1,15 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::middleware(['admin'])->namespace('App\Http\Controllers')->group(function(){
+    $middleware = [
+        'auth:sanctum',
+    ];
+
+    Route::middleware($middleware)->prefix('system')->name('system.')->namespace('System')->group(function() {
+        /* 網站列表*/
+        Route::resource('website', 'WebsiteController');
+    });
+
+});

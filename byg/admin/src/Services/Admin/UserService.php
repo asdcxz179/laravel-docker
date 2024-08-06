@@ -173,12 +173,21 @@ class UserService
             }
             $user = auth()->user();
         }
-        
-        $return = $user->only(['id', 'account', 'name']);
 
+        $return =   [
+            'avatar'    =>  '',
+            'nickname'  =>  $user->name,
+            'username'  =>  $user->account,
+            'roles'     =>  [
+                'admin'
+            ],
+        ];
+        
         if(env("AUTH_MODE") == "token") {
             $token = $user->createToken($userAgent)->plainTextToken;
-            $return['token'] = $token;
+            $return['accessToken'] = $token;
+            $return['refreshToken'] = '';
+            $return['expires'] = 0;
         }
         if(env("ADMIN_MUTIPLE_LOGIN",false)) {
             Auth::logoutOtherDevices($credentials['password']);

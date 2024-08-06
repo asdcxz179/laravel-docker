@@ -38,10 +38,13 @@ use Byg\Admin\Http\Responses\Api\Response;
  *                  "status":200,
  *                  "message":"success",
  *                  "data":{
- *                      "id":"1",
- *                      "name":"Admin",
- *                      "account":"admin",
- *                      "token":"54|psaNlF3yDz7iO2cOM80Gun0Par8PWYkCeBlyp6oca60285d4",
+ *                      "accessToken":"54|psaNlF3yDz7iO2cOM80Gun0Par8PWYkCeBlyp6oca60285d4",
+ *                      "expires": 3600,
+ *                      "refreshToken": "",
+ *                      "avatar": "",
+ *                      "nickname":"Admin",
+ *                      "username":"admin",
+ *                      "roles":[],
  *                  }
  *              }
  *          )

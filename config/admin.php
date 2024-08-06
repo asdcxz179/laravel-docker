@@ -18,7 +18,7 @@ return [
         //     'provider' => 'admin_users',
         // ],
         'api' => [
-            'driver' => 'sanctum',
+            'driver' => 'passport',
             'provider' => 'admin_users',
         ],
     ],
