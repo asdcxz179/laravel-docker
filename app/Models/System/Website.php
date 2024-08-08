@@ -16,6 +16,16 @@ class Website extends \Byg\Admin\Models\Universal\Model
         'online_date',
     ];
 
+    protected $detail = [
+        'id',
+        'name',
+        'prefix',
+        'front_domain',
+        'backend_domain',
+        'status',
+        'online_date',
+    ];
+
     public function settings() {
         return $this->hasMany(WebsiteSetting::class);
     }

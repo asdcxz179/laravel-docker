@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('status')->comment('上線狀態');
             $table->date('online_date')->nullable()->comment('上線日期');
             $table->timestamps();
+            $table->softDeletes();
             $table->comment('站點資料');
         });
     }
