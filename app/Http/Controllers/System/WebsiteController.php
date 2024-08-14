@@ -30,7 +30,7 @@ class WebsiteController extends Controller
     public function create()
     {
         return Response::json([
-            "data"  =>  config('website.form.fields')
+            "data"  =>  collect(config('website.form.fields'))->values()
         ]);
     }
 

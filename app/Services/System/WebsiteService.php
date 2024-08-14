@@ -65,9 +65,10 @@ class WebsiteService {
      * @param  mixed $data
      * @return void
      */
-    public function update($model, array $data) {
-        return DB::transaction(function() use ($model, $data) {
+    public function update(array $data, $id) {
+        return DB::transaction(function() use ($id, $data) {
             $updateData =   Arr::only($data, $this->website->getDetailFields());
+            $model = $this->website->findOrFail($id);
             $result = $model->update($updateData);
             if(!$result){
                 throw new ErrorException(['data' => ['error' => __('admin::Admin.error.updateFail')]],__('admin::Admin.error.updateFail'),500);

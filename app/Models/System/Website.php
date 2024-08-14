@@ -26,6 +26,10 @@ class Website extends \Byg\Admin\Models\Universal\Model
         'online_date',
     ];
 
+    protected $casts = [
+        'online_date' => 'datetime:Y-m-d',
+    ];
+
     public function settings() {
         return $this->hasMany(WebsiteSetting::class);
     }
