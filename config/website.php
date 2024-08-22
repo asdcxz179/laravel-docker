@@ -99,7 +99,6 @@
                     "prop"      =>  "online_date",
                     "valueType" =>  "date-picker",
                     "labelWidth"=>  "100px",
-                    "valueFormat"   =>  "YYYY-MM-DD",
                 ],
             ]
         ]
