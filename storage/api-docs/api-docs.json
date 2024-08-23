@@ -16,6 +16,333 @@
     ],
     "paths": {
         "/": {},
+        "/system/website?draw={draw}&start={start}&length={length}": {
+            "get": {
+                "tags": [
+                    "Website"
+                ],
+                "summary": "網站列表",
+                "description": "網站列表",
+                "operationId": "663df3d9652fc4c6d977770eda768ad4",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    },
+                    {
+                        "name": "draw",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "length",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "success",
+                                    "data": {
+                                        "exception": null,
+                                        "headers": [],
+                                        "original": {
+                                            "draw": 1,
+                                            "recordsTotal": 1,
+                                            "recordsFiltered": 1,
+                                            "data": [
+                                                {
+                                                    "id": 1,
+                                                    "name": "test",
+                                                    "prefix": "test",
+                                                    "front_domain": "test.com",
+                                                    "backend_domain": "admin.test.com",
+                                                    "status": 1,
+                                                    "online_date": ""
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/system/website/{id}": {
+            "get": {
+                "tags": [
+                    "Website"
+                ],
+                "summary": "站點詳細資料",
+                "description": "站點詳細資料",
+                "operationId": "ee0e071896ea81a2dc14a1d190c34783",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "success",
+                                    "data": {
+                                        "id": 1,
+                                        "name": "test",
+                                        "prefix": "test",
+                                        "front_domain": "test.com",
+                                        "backend_domain": "admin.test.com",
+                                        "status": 1,
+                                        "online_date": ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Website"
+                ],
+                "summary": "修改站點",
+                "description": "修改站點",
+                "operationId": "00bb698a8595c58b9a2e480904b10edf",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "網站ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "name",
+                                    "prefix",
+                                    "front_domain",
+                                    "backend_domain",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "網站名稱",
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "prefix": {
+                                        "description": "Prefix",
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "front_domain": {
+                                        "description": "前台網址",
+                                        "type": "string",
+                                        "example": "http://google.com"
+                                    },
+                                    "backend_domain": {
+                                        "description": "後台網址",
+                                        "type": "string",
+                                        "example": "http://google.com"
+                                    },
+                                    "status": {
+                                        "description": "狀態",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "online_date": {
+                                        "description": "上線日期",
+                                        "type": "string",
+                                        "example": "2021-01-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "修改成功"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/system/website": {
+            "post": {
+                "tags": [
+                    "Website"
+                ],
+                "summary": "新增站點",
+                "description": "新增站點",
+                "operationId": "26a731404171d2438b39f3035bd6b10f",
+                "parameters": [
+                    {
+                        "name": "X-Requested-With",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "XMLHttpRequest"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "name",
+                                    "prefix",
+                                    "front_domain",
+                                    "backend_domain",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "網站名稱",
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "prefix": {
+                                        "description": "Prefix",
+                                        "type": "string",
+                                        "example": "test"
+                                    },
+                                    "front_domain": {
+                                        "description": "前台網址",
+                                        "type": "string",
+                                        "example": "http://google.com"
+                                    },
+                                    "backend_domain": {
+                                        "description": "後台網址",
+                                        "type": "string",
+                                        "example": "http://google.com"
+                                    },
+                                    "status": {
+                                        "description": "狀態",
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "message": "新增成功"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/login": {
             "post": {
                 "tags": [
@@ -71,10 +398,13 @@
                                     "status": 200,
                                     "message": "success",
                                     "data": {
-                                        "id": "1",
-                                        "name": "Admin",
-                                        "account": "admin",
-                                        "token": "54|psaNlF3yDz7iO2cOM80Gun0Par8PWYkCeBlyp6oca60285d4"
+                                        "accessToken": "54|psaNlF3yDz7iO2cOM80Gun0Par8PWYkCeBlyp6oca60285d4",
+                                        "expires": 3600,
+                                        "refreshToken": "",
+                                        "avatar": "",
+                                        "nickname": "Admin",
+                                        "username": "admin",
+                                        "roles": []
                                     }
                                 }
                             }
@@ -643,6 +973,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Website",
+            "description": "Website"
+        },
         {
             "name": "Auth",
             "description": "Auth"

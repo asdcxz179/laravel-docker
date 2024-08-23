@@ -44,7 +44,7 @@ use Byg\Admin\Http\Responses\Api\Response;
  *                      "avatar": "",
  *                      "nickname":"Admin",
  *                      "username":"admin",
- *                      "roles":[],
+ *                      "roles":{},
  *                  }
  *              }
  *          )
