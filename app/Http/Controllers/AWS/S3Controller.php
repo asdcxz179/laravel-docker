@@ -23,7 +23,11 @@ class S3Controller extends Controller
     public function index()
     {
         return Response::json(["data" => [
-            "folders"   =>  $this->s3Service->getFolders(),
+            "folders"   =>  [
+                'label' => '/',
+                'value' => '/',
+                'children' => $this->s3Service->getFolders()
+            ],
         ]]);
     }
 
