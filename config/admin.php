@@ -34,16 +34,21 @@ return [
             'form'  =>  [
                 
             ],
-            'fields'=>  [
-                'account'   =>  [
-                    'tag'           =>  'input',
-                    'type'          =>  'text',
-                    'name'          =>  'account',
-                    'text'          =>  'admin::Admin.admin.account',
-                    'placeholder'   =>  'admin::Admin.admin.account',
+            'fields'    =>  [
+                'account'    =>  [
+                    "label"     =>  "admin_users.account",
+                    'text'      =>  'admin::Admin.admin.account',
+                    "prop"      =>  "account",
+                    "valueType" =>  "copy",
+                    "labelWidth"=>  "100px",
+                    "rules" =>  [
+                        [
+                            "required"  =>  true,
+                            "trigger"   =>  "blur"
+                        ]
+                    ],
                     'api_rules'         =>  [
                         'common'    =>  [
-                            
                             'max:255',
                         ],
                         'store'     =>  [
@@ -51,18 +56,42 @@ return [
                             'unique:admin_users,account',
                         ],
                         'update'    =>  [
-                            'nullable'
+                            'nullable',
                             // 'unique:admin_users,account,'.request()->route('id'),
                         ],
                     ],
-                    
                 ],
-                'password'   =>  [
-                    'tag'           =>  'input',
-                    'type'          =>  'password',
-                    'name'          =>  'password',
-                    'text'          =>  'admin::Admin.admin.password',
-                    'placeholder'   =>  'admin::Admin.admin.password',
+                'name'  =>  [
+                    "label"     =>  "admin_users.name",
+                    'text'      =>  'admin::Admin.admin.name',
+                    "prop"      =>  "name",
+                    "valueType" =>  "copy",
+                    "labelWidth"=>  "100px",
+                    "rules" =>  [
+                        [
+                            "required"  =>  true,
+                            "trigger"   =>  "blur"
+                        ]
+                    ],
+                    'api_rules'         =>  [
+                        'common'    =>  [
+                            'required',
+                            'max:255',
+                        ],
+                    ],
+                ],
+                'password'  =>  [
+                    "label"     =>  "admin_users.password",
+                    'text'      =>  'admin::Admin.admin.password',
+                    "prop"      =>  "password",
+                    "valueType" =>  "input",
+                    "labelWidth"=>  "100px",
+                    "rules" =>  [
+                        [
+                            "required"  =>  true,
+                            "trigger"   =>  "blur"
+                        ]
+                    ],
                     'api_rules'         =>  [
                         'common'    =>  [
                             'string',
@@ -78,38 +107,59 @@ return [
                         ],
                     ],
                 ],
-                'name'   =>  [
-                    'tag'           =>  'input',
-                    'type'          =>  'text',
-                    'name'          =>  'name',
-                    'text'          =>  'admin::Admin.admin.name',
-                    'placeholder'   =>  'admin::Admin.admin.name',
+                'password_confirmation'  =>  [
+                    "label"     =>  "admin_users.password_confirmation",
+                    'text'      =>  'admin::Admin.admin.password_confirmation',
+                    "prop"      =>  "password_confirmation",
+                    "valueType" =>  "password",
+                    "labelWidth"=>  "100px",
+                    "rules" =>  [
+                        [
+                            "required"  =>  true,
+                            "trigger"   =>  "blur"
+                        ]
+                    ],
                     'api_rules'         =>  [
                         'common'    =>  [
+                            'string',
+                            'between:6,20',
+                        ],
+                        'store'     =>  [
                             'required',
-                            'max:255',
+                        ],
+                        'update'    =>  [
+                            'nullable',
                         ],
                     ],
                 ],
                 'status'    =>  [
-                    'tag'           =>  'select',
-                    'name'          =>  'status',
-                    'text'          =>  'admin::Admin.admin.status',
-                    'placeholder'   =>  'admin::Admin.admin.status',
+                    "label"     =>  "admin_users.status",
+                    'text'      =>  'admin::Admin.admin.name',
+                    "prop"      =>  "status",
+                    "valueType" =>  "select",
+                    "labelWidth"=>  "100px",
+                    "options"   =>  [
+                        [
+                            "label" =>  "admin_users.statuses.1",
+                            "value" =>  1,
+                            "color" =>  "green"
+                        ],
+                        [
+                            "label" =>  "admin_users.statuses.0",
+                            "value" =>  0,
+                            "color" =>  "warning"
+                        ],
+                    ],
+                    "rules" =>  [
+                        [
+                            "required"  =>  true,
+                            "trigger"   =>  "blur"
+                        ]
+                    ],
                     'api_rules'         =>  [
                         'common'    =>  [
                             'required',
                             'in:0,1',
-                        ],
-                    ],
-                    'options'   =>  [
-                        [
-                            'value' =>  1,
-                            'text'  =>  'admin::Admin.admin.status.enable',
-                        ],
-                        [
-                            'value' =>  0,
-                            'text'  =>  'admin::Admin.admin.status.disable',
                         ],
                     ],
                 ],

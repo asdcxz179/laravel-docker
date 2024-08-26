@@ -268,7 +268,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return Response::json([
+            "data"  =>  collect(config('admin.users.form.fields'))->values()
+        ]);
     }
 
     /**
