@@ -21,11 +21,21 @@ return [
         'newPassword'   =>  '新密碼',
         'confirmPassword'=> '確認密碼',
         'status'        =>  '狀態',
+        'admin_group_id'=>  '管理員群組',
         'status_options'=>  [
             0   =>  '停用',
             1   =>  '正常'
         ],
         'passwordChangeSuccess' => '密碼變更成功',
+    ],
+    'admin_groups'  =>  [
+        'name'          =>  '群組名稱',
+        'status'        =>  '狀態',
+        'status_options'=>  [
+            0   =>  '停用',
+            1   =>  '正常'
+        ],
+        'permissions'   =>  '權限',
     ],
     'adminManger'   =>  '管理員管理',
     'adminDetail'   =>  '管理員詳情',

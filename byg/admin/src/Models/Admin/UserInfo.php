@@ -33,4 +33,8 @@ class UserInfo extends \Byg\Admin\Models\Universal\Model
     protected $hidden = [
         "admin_user_id",
     ];
+
+    public function group() {
+        return $this->belongsTo(Group::class, 'value', 'id')->select('id', 'name', 'permissions');
+    }
 }

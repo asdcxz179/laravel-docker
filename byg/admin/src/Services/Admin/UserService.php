@@ -223,8 +223,8 @@ class UserService
      * @return boolean
      */
     public function updateInfo($user, array $data) {
-        $info = ["type"];
-        foreach(Arr::only($data,$info) as $key => $value){
+        $info = config('admin.users.infos');
+        foreach(Arr::only($data, $info) as $key => $value){
             $result = $user->info()->updateOrCreate(["key" => $key],["value" => $value]);
             if(!$result) {
                 return false;

@@ -26,6 +26,7 @@ return [
     'users' =>  [
         'model'     =>  Byg\Admin\Models\Admin\User::class,
         'service'   =>  Byg\Admin\Services\Admin\UserService::class,
+        'infos'     =>  ["type", "admin_group_id"],
         'form'      =>  [
             'name'  =>  'admin',
             'action'=>  '',
@@ -163,6 +164,61 @@ return [
                         ],
                     ],
                 ],
+                'admin_group_id'  =>  [
+                    'tag'           =>  'select',
+                    'name'          =>  'admin_group_id',
+                    'text'          =>  'admin::Admin.admin.admin_group_id',
+                    'placeholder'   =>  'admin::Admin.admin.admin_group_id',
+                    'api_rules'         =>  [
+                        'common'    =>  [
+                            'required',
+                            'exists:admin_groups,id',
+                        ],
+                    ],
+                    'options'   =>  [
+                    ],
+                ],
+            ]
+        ],
+    ],
+
+    'groups' =>  [
+        'model'     =>  Byg\Admin\Models\Admin\Group::class,
+        'service'   =>  Byg\Admin\Services\Admin\GroupService::class,
+        'form'      =>  [
+            'name'  =>  'group',
+            'action'=>  '',
+            'back'  =>  '',
+            'method'=>  "POST",
+            'form'  =>  [
+                
+            ],
+            'fields'=>  [
+                'name'   =>  [
+                    'tag'           =>  'input',
+                    'type'          =>  'text',
+                    'name'          =>  'name',
+                    'text'          =>  'admin::Admin.admin_groups.name',
+                    'placeholder'   =>  'admin::Admin.admin_groups.name',
+                    'api_rules'         =>  [
+                        'common'    =>  [
+                            'required',
+                            'max:255',
+                        ],
+                    ],
+                ],
+                'permissions'   =>  [
+                    'tag'           =>  'permission_table',
+                    'name'          =>  'permissions',
+                    'text'          =>  'admin::Admin.admin_groups.permissions',
+                    'placeholder'   =>  'admin::Admin.admin_groups.permissions',
+                    'api_rules'         =>  [
+                        'common'    =>  [
+                            'nullable',
+                            'array',
+                        ],
+                    ],
+                ]
             ]
         ],
     ],

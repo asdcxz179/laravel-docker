@@ -49,7 +49,8 @@ class User extends \Byg\Admin\Models\Universal\UserModel
      */
     protected $appends = [
         'login_count',
-        'last_login_time'
+        'last_login_time',
+        'group',
     ];
 
     /**
@@ -71,6 +72,10 @@ class User extends \Byg\Admin\Models\Universal\UserModel
      */
     public function info() {
         return $this->hasMany(UserInfo::class,'admin_user_id','id')->where("key","!=","token");
+    }
+
+    public function getGroupAttribute() {
+        return $this->info()->where('key', 'admin_group_id')->first()?->group;
     }
     
     /**

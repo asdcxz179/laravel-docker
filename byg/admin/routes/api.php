@@ -28,6 +28,8 @@ Route::middleware(['admin'])->prefix('api')->name('api.')->namespace('Byg\Admin\
         Route::middleware($middleware)->group(function () {
             /* 管理員列表 */
             Route::resource('users', 'UserController');
+            /* 管理員角色 */
+            Route::resource('groups', 'GroupController');
             /* 管理員登出 */
             Route::resource('logout', 'Auth\LogoutController');
             /* 變更密碼 */

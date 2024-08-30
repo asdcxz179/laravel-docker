@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use Byg\Admin\Http\Responses\Api\Response;
 /**
  *  @OA\Get (
- *      path="/admin/users?draw={draw}&start={start}&length={length}",
- *      tags={"Admin"},
- *      summary="管理員列表",
- *      description="管理員列表",
+ *      path="/admin/groups?draw={draw}&start={start}&length={length}",
+ *      tags={"Group"},
+ *      summary="管理員群組列表",
+ *      description="管理員群組列表",
  *      security={{"sanctum":{}}},
  *      @OA\Parameter(
  *          name="X-Requested-With",
@@ -69,12 +69,7 @@ use Byg\Admin\Http\Responses\Api\Response;
  *                                  "status":1,
  *                                  "created_at":"2021-07-01 00:00:00",
  *                                  "login_count":1,
- *                                  "last_login_time":"2021-07-01 00:00:00",
- *                                  "group":{
- *                                      "id":1,
- *                                      "name":"admin",
- *                                      "permissions": "[]"
- *                                  }                  
+ *                                  "last_login_time":"2021-07-01 00:00:00"
  *                              }
  *                          }
  *                      }
@@ -85,10 +80,10 @@ use Byg\Admin\Http\Responses\Api\Response;
  *  )
  * )
  *  @OA\Get (
- *      path="/admin/users/{id}",
- *      tags={"Admin"},
- *      summary="管理員詳細資料",
- *      description="管理員詳細資料",
+ *      path="/admin/groups/{id}",
+ *      tags={"Group"},
+ *      summary="管理員群組詳細資料",
+ *      description="管理員群組詳細資料",
  *      security={{"sanctum":{}}},
  *      @OA\Parameter(
  *          name="X-Requested-With",
@@ -105,7 +100,7 @@ use Byg\Admin\Http\Responses\Api\Response;
  *          required=true,
  *          @OA\Schema(
  *              type="integer",
- *              default=2
+ *              default=1
  *          )
  *      ),
  *      @OA\Response(
@@ -118,16 +113,8 @@ use Byg\Admin\Http\Responses\Api\Response;
  *                  "data":{
  *                      "id":1,
  *                      "name":"admin",
- *                      "account":"admin",
- *                      "status":1,
- *                      "created_at":"2021-07-01 00:00:00",
- *                      "login_count":1,
- *                      "last_login_time":"2021-07-01 00:00:00",
- *                      "group":{
- *                          "id":1,
- *                          "name":"admin",
- *                          "permissions": "[]"
- *                      }
+ *                      "permissions":"[]",
+ *                      "created_at":"2021-07-01 00:00:00"
  *                  }
  *              }
  *          )
@@ -135,10 +122,10 @@ use Byg\Admin\Http\Responses\Api\Response;
  *  ),
  * 
  * @OA\Post (
- *      path="/admin/users",
- *      tags={"Admin"},
- *      summary="新增管理員",
- *      description="新增管理員",
+ *      path="/admin/groups",
+ *      tags={"Group"},
+ *      summary="新增管理員群組",
+ *      description="新增管理員群組",
  *      security={{"sanctum":{}}},
  *      @OA\Parameter(
  *          name="X-Requested-With",
@@ -152,12 +139,9 @@ use Byg\Admin\Http\Responses\Api\Response;
  *      @OA\RequestBody(
  *          required=true,
  *          @OA\JsonContent(
- *              required={"name","account","password","status"},
- *              @OA\Property(property="name", type="string", example="test", description="名稱"),
- *              @OA\Property(property="account", type="string", example="test", description="帳號"),
- *              @OA\Property(property="password", type="string", example="123qwe", description="密碼"),
- *              @OA\Property(property="password_confirmation", type="string", example="123qwe", description="確認密碼"),
- *              @OA\Property(property="status", type="integer", example="1", description="狀態"),
+ *              required={"name","permission"},
+ *              @OA\Property(property="name", type="string", example="test", description="管理員名稱"),
+ *              @OA\Property(property="permission", type="array", @OA\Items(type="string"), description="群組權限"),
  *          )
  *     ),
  *     @OA\Response(
@@ -172,10 +156,10 @@ use Byg\Admin\Http\Responses\Api\Response;
  *    )
  * )
  * @OA\Put (
- *      path="/admin/users/{id}",
- *      tags={"Admin"},
- *      summary="修改管理員",
- *      description="修改管理員",
+ *      path="/admin/groups/{id}",
+ *      tags={"Group"},
+ *      summary="修改管理員群組",
+ *      description="修改管理員群組",
  *      security={{"sanctum":{}}},
  *      @OA\Parameter(
  *          name="X-Requested-With",
@@ -188,7 +172,7 @@ use Byg\Admin\Http\Responses\Api\Response;
  *      ),
   *      @OA\Parameter(
  *          name="id",
- *          description="管理員ID",
+ *          description="管理員群組ID",
  *          required=true,
  *          in="path",
  *          @OA\Schema(
@@ -198,11 +182,9 @@ use Byg\Admin\Http\Responses\Api\Response;
  *      @OA\RequestBody(
  *          required=true,
  *          @OA\JsonContent(
- *              required={"name","account","password","status"},
- *              @OA\Property(property="name", type="string", example="test", description="名稱"),
- *              @OA\Property(property="password", type="string", example="", description="密碼"),
- *              @OA\Property(property="password_confirmation", type="string", example="", description="確認密碼"),
- *              @OA\Property(property="status", type="integer", example="1", description="狀態"),
+ *              required={"name","permission"},
+ *              @OA\Property(property="name", type="string", example="test", description="管理員名稱"),
+ *              @OA\Property(property="permission", type="array", @OA\Items(type="string"), description="群組權限"),
  *          )
  *     ),
  *     @OA\Response(
@@ -218,10 +200,10 @@ use Byg\Admin\Http\Responses\Api\Response;
  * )
  * 
  * @OA\Delete (
- *      path="/admin/users/{id}",
- *      tags={"Admin"},
- *      summary="刪除管理員",
- *      description="刪除管理員",
+ *      path="/admin/groups/{id}",
+ *      tags={"Group"},
+ *      summary="刪除管理員群組",
+ *      description="刪除管理員群組",
  *      security={{"sanctum":{}}},
  *      @OA\Parameter(
  *          name="X-Requested-With",
@@ -234,7 +216,7 @@ use Byg\Admin\Http\Responses\Api\Response;
  *      ),
   *      @OA\Parameter(
  *          name="id",
- *          description="管理員ID",
+ *          description="管理員群組ID",
  *          required=true,
  *          in="path",
  *          @OA\Schema(
@@ -254,23 +236,23 @@ use Byg\Admin\Http\Responses\Api\Response;
  *  )
  * 
  */
-class UserController extends Controller
+class GroupController extends Controller
 {
-    protected $UserService;
+    protected $GroupService;
 
     public function __construct() {
-        $this->UserService = app(config('admin.users.service'));
+        $this->GroupService = app(config('admin.groups.service'));
     }
 
     
     /**
-     * 管理員列表
+     * 管理員群組列表
      *
      * @return void
      */
     public function index()
     {
-        return Response::json(["data" => $this->UserService->index(request()->all())]);
+        return Response::json(["data" => $this->GroupService->index(request()->all())]);
     }
 
     /**
@@ -286,9 +268,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(\Byg\Admin\Http\Requests\Admin\StoreRequest $request)
+    public function store(\Byg\Admin\Http\Requests\Admin\Group\StoreRequest $request)
     {
-        $this->UserService->store($request->all());
+        $this->GroupService->store($request->all());
         if($request->ajax()) {
             return Response::json(["message"=>__('admin::Admin.success.insertSuccess')]);
         }else{
@@ -302,9 +284,9 @@ class UserController extends Controller
     public function show(string $id)
     {
         if(request()->ajax()) {
-            return Response::json(["data"=>$this->UserService->getUser($id) ]);
+            return Response::json(["data"=>$this->GroupService->getGroup($id) ]);
         }
-        $user = $this->UserService->getUser($id);
+        $user = $this->GroupService->getUser($id);
         $data['user']   =   $user;
         return view('admin::admin.detail',$data);
     }
@@ -320,9 +302,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(\Byg\Admin\Http\Requests\Admin\UpdateRequest $request, string $id)
+    public function update(\Byg\Admin\Http\Requests\Admin\Group\UpdateRequest $request, string $id)
     {
-        $this->UserService->update($request->all(),$id);
+        $this->GroupService->update($request->all(),$id);
         if($request->ajax()) {
             return Response::json(["message"=>__('admin::Admin.success.updateSuccess')]);
         }else{
@@ -335,7 +317,7 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->UserService->delete($id);
+        $this->GroupService->delete($id);
         return Response::json(["message"=>__('admin::Admin.success.deleteSuccess')]);
     }
 }
