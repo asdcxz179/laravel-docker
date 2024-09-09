@@ -4,6 +4,7 @@ namespace Byg\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Byg\Admin\Http\Responses\Api\Response;
+use Illuminate\Support\Facades\Gate;
 /**
  *  @OA\Get (
  *      path="/admin/groups?draw={draw}&start={start}&length={length}",
@@ -252,6 +253,7 @@ class GroupController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view', new \Byg\Admin\Models\Admin\Group());
         return Response::json(["data" => $this->GroupService->index(request()->all())]);
     }
 
@@ -260,8 +262,9 @@ class GroupController extends Controller
      */
     public function create()
     {
+        Gate::authorize('view', new \Byg\Admin\Models\Admin\Group());
         return Response::json([
-            "data"  =>  collect(config('admin.users.form.fields'))->values()
+            "data"  =>  collect(config('admin.groups.form.fields'))->values()
         ]);
     }
 
@@ -270,6 +273,7 @@ class GroupController extends Controller
      */
     public function store(\Byg\Admin\Http\Requests\Admin\Group\StoreRequest $request)
     {
+        Gate::authorize('create', new \Byg\Admin\Models\Admin\Group());
         $this->GroupService->store($request->all());
         if($request->ajax()) {
             return Response::json(["message"=>__('admin::Admin.success.insertSuccess')]);
@@ -283,6 +287,7 @@ class GroupController extends Controller
      */
     public function show(string $id)
     {
+        Gate::authorize('view', new \Byg\Admin\Models\Admin\Group());
         if(request()->ajax()) {
             return Response::json(["data"=>$this->GroupService->getGroup($id) ]);
         }
@@ -304,6 +309,7 @@ class GroupController extends Controller
      */
     public function update(\Byg\Admin\Http\Requests\Admin\Group\UpdateRequest $request, string $id)
     {
+        Gate::authorize('update', new \Byg\Admin\Models\Admin\Group());
         $this->GroupService->update($request->all(),$id);
         if($request->ajax()) {
             return Response::json(["message"=>__('admin::Admin.success.updateSuccess')]);
@@ -317,6 +323,7 @@ class GroupController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete', new \Byg\Admin\Models\Admin\Group());
         $this->GroupService->delete($id);
         return Response::json(["message"=>__('admin::Admin.success.deleteSuccess')]);
     }

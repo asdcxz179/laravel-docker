@@ -41,5 +41,9 @@ class Group extends \Byg\Admin\Models\Universal\Model
         "permissions",
         "created_at"
     ];
+
+    public function users() {
+        return $this->hasMany(UserInfo::class, 'value', 'id')->where('key', 'admin_group_id')->whereHas('user');
+    }
     
 }

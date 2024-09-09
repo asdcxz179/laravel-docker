@@ -37,7 +37,7 @@ class Init
      */
     public function handle(Request $request, Closure $next)
     {
-        config(['auth.defaults.guard'=>'api']);
+        config(['auth.defaults.guard'=>'admin']);
         config(['auth.defaults.passwords'=>'admin_users']);
         // if(!$this->SettingsService->CheckInit() && !in_array(Route::currentRouteName(),$this->IgnoreInitRoute)) {
         //     $request = app(Request::class);

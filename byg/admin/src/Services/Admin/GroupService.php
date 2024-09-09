@@ -88,17 +88,32 @@ class GroupService
     /**
      * 刪除管理員群組
      * @param string $uuid
-     * @return object $user
+     * @return object $group
      * @throws \App\Exceptions\Universal\ErrorException
      * @version 1.0
      * @author Henry
      */
     public function delete(string $uuid) {
-        $user = $this->GroupRepository->find($uuid)->delete();
-        if(!$user){
+        $group = $this->GroupRepository->find($uuid);
+        if($group->users()->count() > 0){
             throw new ErrorException(['data' => ['error' => __('admin::Admin.error.deleteFail')]],__('admin::Admin.error.deleteFail'),500);
         }
-        return $user;
+        $result = $group->delete();
+        if(!$result){
+            throw new ErrorException(['data' => ['error' => __('admin::Admin.error.deleteFail')]],__('admin::Admin.error.deleteFail'),500);
+        }
+        return $group;
+    }
+
+    public function select() {
+        return $this->GroupRepository->select([
+            'id', 'name'
+        ])->get()->map(function($item){
+            return [
+                'value' => (string)$item->id,
+                'label' => $item->name
+            ];
+        });
     }
 
 }

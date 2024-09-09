@@ -51,6 +51,7 @@ class User extends \Byg\Admin\Models\Universal\UserModel
         'login_count',
         'last_login_time',
         'group',
+        'admin_group_id',
     ];
 
     /**
@@ -64,7 +65,7 @@ class User extends \Byg\Admin\Models\Universal\UserModel
     ];
 
     protected $super = 'admin';
-    
+
     /**
      * 關聯管理員資訊
      *
@@ -73,9 +74,23 @@ class User extends \Byg\Admin\Models\Universal\UserModel
     public function info() {
         return $this->hasMany(UserInfo::class,'admin_user_id','id')->where("key","!=","token");
     }
-
+    
+    /**
+     * 關聯群組
+     *
+     * @return void
+     */
     public function getGroupAttribute() {
         return $this->info()->where('key', 'admin_group_id')->first()?->group;
+    }
+    
+    /**
+     * 取得管理員id
+     *
+     * @return void
+     */
+    public function getAdminGroupIdAttribute() {
+        return $this->info()->where('key', 'admin_group_id')->first()?->value;
     }
     
     /**
@@ -120,7 +135,7 @@ class User extends \Byg\Admin\Models\Universal\UserModel
      * @return boolean
      */
     public function isSuperAdmin(){
-        return $this->hasOne(UserInfo::class,'admin_user_id','id')->where("key", "type")->first()?->value == $this->super;
+        return $this->info()->where("key", "type")->first()?->value == $this->super;
     }
 
     /**

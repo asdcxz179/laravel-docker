@@ -13,10 +13,10 @@ return [
     'locale'    =>  'zh-Hant',
 
     'guards' => [
-        // 'admin' => [
-        //     'driver' => 'session',
-        //     'provider' => 'admin_users',
-        // ],
+        'admin' => [
+            'driver' => 'sanctum',
+            'provider' => 'admin_users',
+        ],
         'api' => [
             'driver' => 'passport',
             'provider' => 'admin_users',
@@ -139,6 +139,7 @@ return [
                     "prop"      =>  "status",
                     "valueType" =>  "select",
                     "labelWidth"=>  "100px",
+                    "default"   =>  1,
                     "options"   =>  [
                         [
                             "label" =>  "admin_users.statuses.1",
@@ -165,9 +166,19 @@ return [
                     ],
                 ],
                 'admin_group_id'  =>  [
+                    'label'         =>  'admin_users.admin_group_id',
+                    'text'          =>  'admin::Admin.admin.admin_group_id',
+                    "prop"          =>  "admin_group_id",
+                    "valueType"     =>  "select",
+                    "labelWidth"    =>  "100px",
+                    'rules'         =>  [
+                        [
+                            "required"  =>  true,
+                            "trigger"   =>  "blur"
+                        ]
+                    ],
                     'tag'           =>  'select',
                     'name'          =>  'admin_group_id',
-                    'text'          =>  'admin::Admin.admin.admin_group_id',
                     'placeholder'   =>  'admin::Admin.admin.admin_group_id',
                     'api_rules'         =>  [
                         'common'    =>  [
@@ -195,6 +206,16 @@ return [
             ],
             'fields'=>  [
                 'name'   =>  [
+                    "label"         =>  "admin_groups.name",
+                    "prop"          =>  "name",
+                    "valueType"     =>  "copy",
+                    "labelWidth"    =>  "100px",
+                    'rules'         =>  [
+                        [
+                            "required"  =>  true,
+                            "trigger"   =>  "blur"
+                        ]
+                    ],
                     'tag'           =>  'input',
                     'type'          =>  'text',
                     'name'          =>  'name',
@@ -208,6 +229,10 @@ return [
                     ],
                 ],
                 'permissions'   =>  [
+                    "label"         =>  "admin_groups.permissions",
+                    "prop"          =>  "permissions",
+                    "valueType"     =>  "checkbox",
+                    "labelWidth"    =>  "100px",
                     'tag'           =>  'permission_table',
                     'name'          =>  'permissions',
                     'text'          =>  'admin::Admin.admin_groups.permissions',
@@ -216,6 +241,96 @@ return [
                         'common'    =>  [
                             'nullable',
                             'array',
+                        ],
+                    ],
+                    'options'   =>  [
+                        [
+                            'id'        =>  'websites',
+                            'label'     =>  'websites',
+                            'children'  =>  [
+                                [
+                                    'id' =>  'websites.index',
+                                    'label' =>  'index',
+                                ],
+                                [
+                                    'id' =>  'websites.store',
+                                    'label' =>  'store',
+                                ],
+                                [
+                                    'id' =>  'websites.update',
+                                    'label' =>  'update',
+                                ],
+                                [
+                                    'id' =>  'websites.destroy',
+                                    'label' =>  'destroy',
+                                ],
+                            ]
+                        ],
+                        [
+                            'id'        =>  'admin_users',
+                            'label'     =>  'admin_users',
+                            'children'  =>  [
+                                [
+                                    'id' =>  'admin_users.index',
+                                    'label' =>  'index',
+                                ],
+                                [
+                                    'id' =>  'admin_users.store',
+                                    'label' =>  'store',
+                                ],
+                                [
+                                    'id' =>  'admin_users.update',
+                                    'label' =>  'update',
+                                ],
+                                [
+                                    'id' =>  'admin_users.destroy',
+                                    'label' =>  'destroy',
+                                ],
+                            ]
+                        ],
+                        [
+                            'id'        =>  'admin_groups',
+                            'label'     =>  'admin_groups',
+                            'children'  =>  [
+                                [
+                                    'id' =>  'admin_groups.index',
+                                    'label' =>  'index',
+                                ],
+                                [
+                                    'id' =>  'admin_groups.store',
+                                    'label' =>  'store',
+                                ],
+                                [
+                                    'id' =>  'admin_groups.update',
+                                    'label' =>  'update',
+                                ],
+                                [
+                                    'id' =>  'admin_groups.destroy',
+                                    'label' =>  'destroy',
+                                ],
+                            ]
+                        ],
+                        [
+                            'id'        =>  's3_images',
+                            'label'     =>  's3_images',
+                            'children'  =>  [
+                                [
+                                    'id' =>  's3_images.index',
+                                    'label' =>  'index',
+                                ],
+                                [
+                                    'id' =>  's3_images.store',
+                                    'label' =>  'store',
+                                ],
+                                [
+                                    'id' =>  's3_images.update',
+                                    'label' =>  'update',
+                                ],
+                                [
+                                    'id' =>  's3_images.destroy',
+                                    'label' =>  'destroy',
+                                ],
+                            ]
                         ],
                     ],
                 ]

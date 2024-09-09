@@ -4,6 +4,7 @@ namespace Byg\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Byg\Admin\Http\Responses\Api\Response;
+use Illuminate\Support\Facades\Gate;
 /**
  *  @OA\Get (
  *      path="/admin/users?draw={draw}&start={start}&length={length}",
@@ -258,8 +259,11 @@ class UserController extends Controller
 {
     protected $UserService;
 
+    protected $GroupService;
+
     public function __construct() {
         $this->UserService = app(config('admin.users.service'));
+        $this->GroupService = app(config('admin.groups.service'));
     }
 
     
@@ -270,6 +274,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view', new \Byg\Admin\Models\Admin\User());
         return Response::json(["data" => $this->UserService->index(request()->all())]);
     }
 
@@ -278,8 +283,11 @@ class UserController extends Controller
      */
     public function create()
     {
+        Gate::authorize('view', new \Byg\Admin\Models\Admin\User());
+        $fields = config('admin.users.form.fields');
+        $fields['admin_group_id']['options'] = $this->GroupService->select();
         return Response::json([
-            "data"  =>  collect(config('admin.users.form.fields'))->values()
+            "data"  =>  collect($fields)->values()
         ]);
     }
 
@@ -288,6 +296,7 @@ class UserController extends Controller
      */
     public function store(\Byg\Admin\Http\Requests\Admin\StoreRequest $request)
     {
+        Gate::authorize('create', new \Byg\Admin\Models\Admin\User());
         $this->UserService->store($request->all());
         if($request->ajax()) {
             return Response::json(["message"=>__('admin::Admin.success.insertSuccess')]);
@@ -301,6 +310,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
+        Gate::authorize('view', new \Byg\Admin\Models\Admin\User());
         if(request()->ajax()) {
             return Response::json(["data"=>$this->UserService->getUser($id) ]);
         }
@@ -322,6 +332,7 @@ class UserController extends Controller
      */
     public function update(\Byg\Admin\Http\Requests\Admin\UpdateRequest $request, string $id)
     {
+        Gate::authorize('update', new \Byg\Admin\Models\Admin\User());
         $this->UserService->update($request->all(),$id);
         if($request->ajax()) {
             return Response::json(["message"=>__('admin::Admin.success.updateSuccess')]);
@@ -335,6 +346,7 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete', new \Byg\Admin\Models\Admin\User());
         $this->UserService->delete($id);
         return Response::json(["message"=>__('admin::Admin.success.deleteSuccess')]);
     }

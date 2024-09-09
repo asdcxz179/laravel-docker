@@ -29,3 +29,5 @@ yarn-error.log
 /php/logs/*
 !/php/logs/.gitkeep
 /php/config/php.ini
+/mongodb/data/*
+!/mongodb/data/.gitkeep

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\App;
 use Oukuyun\Admin\Models\System\Settings;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -119,6 +120,9 @@ class AdminServiceProvider extends ServiceProvider
 
         // Settings::observe(\Oukuyun\Admin\Observers\System\SettingsObserver::class);
         // Blade::componentNamespace('Oukuyun\\Admin\\View\\Components\\Backend', 'backend');
+
+        Gate::policy(\Byg\Admin\Models\Admin\User::class, \Byg\Admin\Policies\Admin\UserPolicy::class);
+        Gate::policy(\Byg\Admin\Models\Admin\Group::class, \Byg\Admin\Policies\Admin\GroupPolicy::class);
     }
 
     /**

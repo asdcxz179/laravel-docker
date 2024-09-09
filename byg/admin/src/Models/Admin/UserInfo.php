@@ -37,4 +37,8 @@ class UserInfo extends \Byg\Admin\Models\Universal\Model
     public function group() {
         return $this->belongsTo(Group::class, 'value', 'id')->select('id', 'name', 'permissions');
     }
+
+    public function user() {
+        return $this->belongsTo(config('admin.users.model'), 'admin_user_id', 'id');
+    }
 }

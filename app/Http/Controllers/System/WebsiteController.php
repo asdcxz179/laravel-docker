@@ -5,6 +5,7 @@ namespace App\Http\Controllers\System;
 use App\Http\Controllers\Controller;
 use Byg\Admin\Http\Responses\Api\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 /**
  *  @OA\Get (
@@ -225,6 +226,7 @@ class WebsiteController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view', new \App\Models\System\Website());
         return Response::json(["data" => $this->websiteService->index([])]);
     }
 
@@ -233,6 +235,7 @@ class WebsiteController extends Controller
      */
     public function create()
     {
+        Gate::authorize('view', new \App\Models\System\Website());
         return Response::json([
             "data"  =>  collect(config('website.form.fields'))->values()
         ]);
@@ -243,6 +246,7 @@ class WebsiteController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', new \App\Models\System\Website());
         $this->websiteService->store($request->all());
         if($request->ajax()) {
             return Response::json(["message"=>__('admin::Admin.success.insertSuccess')]);
@@ -256,6 +260,7 @@ class WebsiteController extends Controller
      */
     public function show(string $id)
     {
+        Gate::authorize('view', new \App\Models\System\Website());
         return Response::json(["data"=>$this->websiteService->getWebsite($id) ]);
     }
 
@@ -272,6 +277,7 @@ class WebsiteController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('update', new \App\Models\System\Website());
         $this->websiteService->update($request->all(),$id);
         if($request->ajax()) {
             return Response::json(["message"=>__('admin::Admin.success.updateSuccess')]);
@@ -285,6 +291,6 @@ class WebsiteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Gate::authorize('delete', new \App\Models\System\Website());
     }
 }

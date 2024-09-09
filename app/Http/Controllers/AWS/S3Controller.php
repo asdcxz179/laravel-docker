@@ -4,11 +4,11 @@ namespace App\Http\Controllers\AWS;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Byg\Admin\Http\Responses\Api\Response;
 use App\Services\AWS\S3Service;
 use App\Http\Requests\AWS\StoreRequest;
 use App\Http\Requests\AWS\DeleteRequest;
+use Illuminate\Support\Facades\Gate;
 
 class S3Controller extends Controller
 {
@@ -22,6 +22,7 @@ class S3Controller extends Controller
      */
     public function index()
     {
+        Gate::authorize('view', new \App\Models\AWS\S3());
         return Response::json(["data" => [
             "folders"   =>  [
                 'label' => '/',
@@ -44,6 +45,7 @@ class S3Controller extends Controller
      */
     public function store(StoreRequest $request)
     {
+        Gate::authorize('create', new \App\Models\AWS\S3());
         $path = $request->path;
         $file = $request->file('file');
         $this->s3Service->insertFile($path, $file);
@@ -57,6 +59,7 @@ class S3Controller extends Controller
      */
     public function show(string $id)
     {
+        Gate::authorize('view', new \App\Models\AWS\S3());
         return Response::json(["data" => [
             "files" => $this->s3Service->getFiles(request('path'))
         ]]);
@@ -83,6 +86,7 @@ class S3Controller extends Controller
      */
     public function destroy(DeleteRequest $request, string $id)
     {
+        Gate::authorize('delete', new \App\Models\AWS\S3());
         $this->s3Service->deleteFile(request('file'));
         return Response::json([]);
     }

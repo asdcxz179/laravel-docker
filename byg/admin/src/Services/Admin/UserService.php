@@ -184,10 +184,11 @@ class UserService
         ];
         
         if(env("AUTH_MODE") == "token") {
-            $token = $user->createToken($userAgent)->plainTextToken;
+            $token = $user->createToken($userAgent, $user->group?->permissions??[])->plainTextToken;
             $return['accessToken'] = $token;
             $return['refreshToken'] = '';
             $return['expires'] = 0;
+            $return['scope'] = $user->group?->permissions??[];
         }
         if(env("ADMIN_MUTIPLE_LOGIN",false)) {
             Auth::logoutOtherDevices($credentials['password']);
